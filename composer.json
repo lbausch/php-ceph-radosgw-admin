@@ -1,0 +1,38 @@
+{
+    "name": "lbausch/php-radosgw-admin",
+    "description": "PHP Radosgw Admin",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lorenz Bausch",
+            "email": "info@lorenzbausch.de"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "aws/aws-sdk-php": "^3.182",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.86",
+        "phpunit/phpunit": "^9.5",
+        "rector/rector": "^0.11.3",
+        "vimeo/psalm": "^4.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "LBausch\\PhpRadosgwAdmin\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
