@@ -1,0 +1,54 @@
+---
+on:
+  push:
+  pull_request:
+
+name: Static Code Analysis
+
+jobs:
+  php-cs-fixer:
+    name: PHP Coding Standards Fixer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: PHP Coding Standards Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga
+        with:
+          args: --config=.php-cs-fixer.dist.php --diff --dry-run
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: PHPStan
+        uses: docker://oskarstark/phpstan-ga
+        env:
+          REQUIRE_DEV: true
+
+  psalm:
+    name: Psalm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Psalm Security Scan
+        uses: docker://ghcr.io/psalm/psalm-security-scan
+
+  rector:
+    name: Rector
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: composer update --no-interaction --no-progress
+
+      - name: Rector
+        run: ./vendor/bin/rector --dry-run

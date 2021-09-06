@@ -1,0 +1,47 @@
+---
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 7 * * *'
+
+name: Unit Tests
+
+jobs:
+  phpunit:
+    strategy:
+      fail-fast: true
+      matrix:
+        php: ['7.4', '8.0']
+        stability: [prefer-lowest, prefer-stable]
+
+    name: 'PHPUnit: PHP ${{ matrix.php }} - ${{ matrix.stability }}'
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl
+          tools: composer:v2
+          coverage: xdebug
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress ${{ matrix.flags }}
+
+      - name: Execute tests
+        run: ./vendor/bin/phpunit --testdox --coverage-text
+
+      - name: Upload coverage to Codecov
+        if: ${{ github.ref == 'refs/heads/master' && matrix.php == '8.0' && matrix.stability == 'prefer-stable' }}
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
