@@ -5,17 +5,20 @@
 A PHP REST client for the [Ceph](https://ceph.io/) [Object Gateway](https://docs.ceph.com/en/latest/radosgw/) [Admin Ops API](https://docs.ceph.com/en/latest/radosgw/adminops/)
 
 - [Features](#features)
+- [Requirements](#requirements)
 - [Installation](#installation)
-- [Setup](#setup)
 - [Usage](#usage)
 
 ## Features
-+ Support all endpoints of the [Admin Ops API](https://docs.ceph.com/en/latest/radosgw/adminops/), including currently undocumented `metadata/` endpoints
++ Supports all endpoints of the [Admin Ops API](https://docs.ceph.com/en/latest/radosgw/adminops/), including currently undocumented `metadata/` endpoints
 + Requests are signed using AWS Signature V2 and V4
 + Provides S3Client with no extra configuration by utilizing the [AWS SDK for PHP
 ](https://aws.amazon.com/sdk-for-php/)
 + Extensible and customizable
 
+## Requirements
++ PHP >= 7.4
++ Ceph Nautilus or newer
 
 ## Installation
 Use [Composer](https://getcomposer.org/) to install the library:
@@ -23,11 +26,16 @@ Use [Composer](https://getcomposer.org/) to install the library:
 composer require lbausch/php-radosgw-admin
 ```
 
-## Setup
-An admin user with sufficient capabilities is required:
+On the Ceph side an admin user with sufficient capabilities is required:
 
 ```bash
-radosgw-admin user create --uid="admin" --display-name="Admin User" --caps="users=read,write;usage=read,write;buckets=read,write;metadata=read,write;zone=read,write" --admin --access-key="<redacted>" --secret="<redacted>"
+radosgw-admin user create \
+    --uid="admin" \
+    --display-name="Admin User" \
+    --admin \
+    --caps="users=read,write;usage=read,write;buckets=read,write;metadata=read,write;zone=read,write" \
+    --access-key="<redacted>" \
+    --secret="<redacted>"
 ```
 
 ## Usage
@@ -88,7 +96,7 @@ $s3client = $client->getS3Client();
 $buckets = $s3client->listBuckets();
 
 foreach ($buckets['Buckets'] as $bucket) {
-    echo $bucket['Name']."\n";
+    echo $bucket['Name'].PHP_EOL;
 }
 
 // mybucket
