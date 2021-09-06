@@ -43,7 +43,6 @@ radosgw-admin user create \
 ### Admin Client
 ```php
 use LBausch\CephRadosgwAdmin\Client;
-use LBausch\CephRadosgwAdmin\Resources\Bucket;
 
 require 'vendor/autoload.php';
 
