@@ -85,6 +85,7 @@ class Bucket extends AbstractResource
     {
         return $this->api->get($this->endpoint, [
             'query' => array_merge([
+                'policy' => '',
                 'bucket' => $bucket,
             ], $data),
         ]);
