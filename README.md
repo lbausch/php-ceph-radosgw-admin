@@ -1,5 +1,7 @@
 # PHP Ceph Radosgw Admin  <!-- omit in toc -->
 
+![sca](https://github.com/lbausch/php-ceph-radosgw-admin/actions/workflows/sca.yml/badge.svg) ![tests](https://github.com/lbausch/php-ceph-radosgw-admin/actions/workflows/tests.yml/badge.svg) ![codecov](https://codecov.io/gh/lbausch/php-ceph-radosgw-admin/branch/master/graph/badge.svg)
+
 A PHP REST client for the [Ceph](https://ceph.io/) [Object Gateway](https://docs.ceph.com/en/latest/radosgw/) [Admin Ops API](https://docs.ceph.com/en/latest/radosgw/adminops/)
 
 - [Features](#features)
