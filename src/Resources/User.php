@@ -1,10 +1,10 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Resources;
+namespace LBausch\CephRadosgwAdmin\Resources;
 
-use LBausch\PhpRadosgwAdmin\ApiResponse;
-use LBausch\PhpRadosgwAdmin\Signature\AbstractSignature;
-use LBausch\PhpRadosgwAdmin\Signature\SignatureV2;
+use LBausch\CephRadosgwAdmin\ApiResponse;
+use LBausch\CephRadosgwAdmin\Signature\AbstractSignature;
+use LBausch\CephRadosgwAdmin\Signature\SignatureV2;
 
 class User extends AbstractResource
 {

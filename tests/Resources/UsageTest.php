@@ -4,20 +4,20 @@ namespace Tests\Resources;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use LBausch\PhpRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\Client;
 use Tests\TestCase;
 
 final class UsageTest extends TestCase
 {
     /**
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse
-     * @covers \LBausch\PhpRadosgwAdmin\Client
-     * @covers \LBausch\PhpRadosgwAdmin\Config
-     * @covers \LBausch\PhpRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\Usage::info
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV4::signRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\Usage::info
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
     public function testUsageInfoIsReturned(): void
     {

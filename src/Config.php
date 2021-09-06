@@ -1,11 +1,11 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin;
+namespace LBausch\CephRadosgwAdmin;
 
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
-use LBausch\PhpRadosgwAdmin\Signature\SignatureV2;
-use LBausch\PhpRadosgwAdmin\Signature\SignatureV4;
+use LBausch\CephRadosgwAdmin\Signature\SignatureV2;
+use LBausch\CephRadosgwAdmin\Signature\SignatureV4;
 
 class Config
 {

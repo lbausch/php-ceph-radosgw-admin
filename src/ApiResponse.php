@@ -1,6 +1,6 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin;
+namespace LBausch\CephRadosgwAdmin;
 
 use Psr\Http\Message\ResponseInterface;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Signature;
+namespace LBausch\CephRadosgwAdmin\Signature;
 
-use LBausch\PhpRadosgwAdmin\Contracts\SignatureContract;
+use LBausch\CephRadosgwAdmin\Contracts\SignatureContract;
 
 abstract class AbstractSignature implements SignatureContract
 {

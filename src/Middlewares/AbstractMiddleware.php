@@ -1,8 +1,8 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Middlewares;
+namespace LBausch\CephRadosgwAdmin\Middlewares;
 
-use LBausch\PhpRadosgwAdmin\Contracts\MiddlewareContract;
+use LBausch\CephRadosgwAdmin\Contracts\MiddlewareContract;
 
 abstract class AbstractMiddleware implements MiddlewareContract
 {

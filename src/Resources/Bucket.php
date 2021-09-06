@@ -1,8 +1,8 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Resources;
+namespace LBausch\CephRadosgwAdmin\Resources;
 
-use LBausch\PhpRadosgwAdmin\ApiResponse;
+use LBausch\CephRadosgwAdmin\ApiResponse;
 
 class Bucket extends AbstractResource
 {

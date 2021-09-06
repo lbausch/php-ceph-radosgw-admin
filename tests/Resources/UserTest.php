@@ -4,20 +4,20 @@ namespace Tests\Resources;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use LBausch\PhpRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\Client;
 use Tests\TestCase;
 
 final class UserTest extends TestCase
 {
     /**
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse
-     * @covers \LBausch\PhpRadosgwAdmin\Client
-     * @covers \LBausch\PhpRadosgwAdmin\Config
-     * @covers \LBausch\PhpRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\User::list
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV4::signRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::list
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
     public function testUsersAreListed(): void
     {
@@ -44,19 +44,19 @@ final class UserTest extends TestCase
     }
 
     /**
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse
-     * @covers \LBausch\PhpRadosgwAdmin\Client
-     * @covers \LBausch\PhpRadosgwAdmin\Config
-     * @covers \LBausch\PhpRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\User::create
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV2::canonicalizedAmzHeaders
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV2::canonicalizedResource
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV2::contentMd5
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV2::expires
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV2::signRequest
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV2::stringToSign
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::create
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::canonicalizedAmzHeaders
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::canonicalizedResource
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::contentMd5
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::expires
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::signRequest
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::stringToSign
      */
     public function testUserIsCreated(): void
     {
@@ -87,14 +87,14 @@ final class UserTest extends TestCase
     }
 
     /**
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse
-     * @covers \LBausch\PhpRadosgwAdmin\Client
-     * @covers \LBausch\PhpRadosgwAdmin\Config
-     * @covers \LBausch\PhpRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\User::modify
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV4::signRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::modify
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
     public function testUserIsModified(): void
     {

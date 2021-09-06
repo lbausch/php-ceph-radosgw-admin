@@ -23,7 +23,7 @@ A PHP REST client for the [Ceph](https://ceph.io/) [Object Gateway](https://docs
 ## Installation
 Use [Composer](https://getcomposer.org/) to install the library:
 ```bash
-composer require lbausch/php-radosgw-admin
+composer require lbausch/ceph-radosgw-admin
 ```
 
 On the Ceph side an admin user with sufficient capabilities is required:
@@ -42,8 +42,8 @@ radosgw-admin user create \
 
 ### Admin Client
 ```php
-use LBausch\PhpRadosgwAdmin\Client;
-use LBausch\PhpRadosgwAdmin\Resources\Bucket;
+use LBausch\CephRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\Resources\Bucket;
 
 require 'vendor/autoload.php';
 
@@ -62,11 +62,11 @@ Array
 ```
 
 ### Handling Exceptions
-Upon failed requests the exception `LBausch\PhpRadosgwAdmin\ApiException` is thrown.
+Upon failed requests the exception `LBausch\CephRadosgwAdmin\ApiException` is thrown.
 
 ```php
-use LBausch\PhpRadosgwAdmin\ApiException;
-use LBausch\PhpRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\ApiException;
+use LBausch\CephRadosgwAdmin\Client;
 
 require 'vendor/autoload.php';
 
@@ -82,7 +82,7 @@ try {
 
 ### S3 Client
 ```php
-use LBausch\PhpRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\Client;
 
 require 'vendor/autoload.php';
 
@@ -103,11 +103,11 @@ foreach ($buckets['Buckets'] as $bucket) {
 ```
 
 ### Custom Configuration
-Many settings may be overriden if needed. See `LBausch\PhpRadosgwAdmin\Config::defaults()` for a list of configurable options.
+Many settings may be overriden if needed. See `LBausch\CephRadosgwAdmin\Config::defaults()` for a list of configurable options.
 
 ```php
-use LBausch\PhpRadosgwAdmin\Client;
-use LBausch\PhpRadosgwAdmin\Config;
+use LBausch\CephRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\Config;
 
 require 'vendor/autoload.php';
 

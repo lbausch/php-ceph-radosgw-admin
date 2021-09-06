@@ -5,7 +5,7 @@ namespace Tests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
-use LBausch\PhpRadosgwAdmin\Config;
+use LBausch\CephRadosgwAdmin\Config;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
