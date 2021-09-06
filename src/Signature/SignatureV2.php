@@ -1,9 +1,9 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Signature;
+namespace LBausch\CephRadosgwAdmin\Signature;
 
 use Aws\Credentials\CredentialsInterface;
-use LBausch\PhpRadosgwAdmin\Config;
+use LBausch\CephRadosgwAdmin\Config;
 use Psr\Http\Message\RequestInterface;
 
 class SignatureV2 extends AbstractSignature

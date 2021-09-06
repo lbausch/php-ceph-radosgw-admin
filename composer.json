@@ -1,6 +1,6 @@
 {
-    "name": "lbausch/php-radosgw-admin",
-    "description": "PHP Radosgw Admin",
+    "name": "lbausch/ceph-radosgw-admin",
+    "description": "PHP Ceph Radosgw Admin",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LBausch\\PhpRadosgwAdmin\\": "src/"
+            "LBausch\\CephRadosgwAdmin\\": "src/"
         }
     },
     "autoload-dev": {

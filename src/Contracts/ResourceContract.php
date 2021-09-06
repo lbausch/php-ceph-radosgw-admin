@@ -1,8 +1,8 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Contracts;
+namespace LBausch\CephRadosgwAdmin\Contracts;
 
-use LBausch\PhpRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\Client;
 
 interface ResourceContract
 {

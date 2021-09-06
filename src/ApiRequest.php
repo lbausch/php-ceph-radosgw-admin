@@ -1,6 +1,6 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin;
+namespace LBausch\CephRadosgwAdmin;
 
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\ResponseInterface;

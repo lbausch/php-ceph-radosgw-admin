@@ -1,6 +1,6 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin;
+namespace LBausch\CephRadosgwAdmin;
 
 use Aws\Credentials\Credentials;
 use Aws\S3\S3Client;
@@ -8,10 +8,10 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 use GuzzleHttp\HandlerStack;
 use InvalidArgumentException;
-use LBausch\PhpRadosgwAdmin\Middlewares\SignatureMiddleware;
-use LBausch\PhpRadosgwAdmin\Resources\Bucket;
-use LBausch\PhpRadosgwAdmin\Resources\Usage;
-use LBausch\PhpRadosgwAdmin\Resources\User;
+use LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware;
+use LBausch\CephRadosgwAdmin\Resources\Bucket;
+use LBausch\CephRadosgwAdmin\Resources\Usage;
+use LBausch\CephRadosgwAdmin\Resources\User;
 use ReflectionClass;
 
 /**
