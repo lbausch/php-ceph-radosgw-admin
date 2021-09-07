@@ -163,4 +163,70 @@ EOT),
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('http://gateway/admin/user?uid=foo&display-name=baz', $request->getUri());
     }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::createKey
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testKeyIsCreated()
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->createKey('foo');
+
+        $this->assertEquals('', $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertEquals('PUT', $request->getMethod());
+        $this->assertEquals('http://gateway/admin/user?key=&uid=foo', $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::deleteKey
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testKeyIsDeleted()
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->deleteKey('access key');
+
+        $this->assertEquals('', $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('http://gateway/admin/user?key=&access-key=access%20key', $request->getUri());
+    }
 }
