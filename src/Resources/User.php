@@ -220,4 +220,37 @@ class User extends AbstractResource
             RequestOptions::BODY => json_encode($quota),
         ]);
     }
+
+    /**
+     * Get bucket quota.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-bucket-quota
+     */
+    public function getBucketQuota(string $uid): ApiResponse
+    {
+        return $this->api->get($this->endpoint, [
+            RequestOptions::QUERY => [
+                'quota' => '',
+                'uid' => $uid,
+                'quota-type' => 'bucket',
+            ],
+        ]);
+    }
+
+    /**
+     * Set bucket quota.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#set-bucket-quota
+     */
+    public function setBucketQuota(string $uid, array $quota): ApiResponse
+    {
+        return $this->api->put($this->endpoint, [
+            RequestOptions::QUERY => [
+                'quota' => '',
+                'uid' => $uid,
+                'quota-type' => 'bucket',
+            ],
+            RequestOptions::BODY => json_encode($quota),
+        ]);
+    }
 }
