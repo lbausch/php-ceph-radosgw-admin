@@ -24,14 +24,14 @@ final class UsageTest extends TestCase
         $transactions = [];
 
         $config = $this->getConfigWithMockedHandlers($transactions, [
-            new Response(200, [], '[]'),
+            new Response(),
         ]);
 
         $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
 
         $response = $client->usage()->info();
 
-        $this->assertEquals([], $response->get());
+        $this->assertEquals('', $response->get());
 
         $this->assertCount(1, $transactions);
 
@@ -57,7 +57,7 @@ final class UsageTest extends TestCase
         $transactions = [];
 
         $config = $this->getConfigWithMockedHandlers($transactions, [
-            new Response(200, [], '[]'),
+            new Response(),
         ]);
 
         $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
@@ -67,7 +67,7 @@ final class UsageTest extends TestCase
             'start' => '1970-01-01 13:37:00',
         ]);
 
-        $this->assertEquals([], $response->get());
+        $this->assertEquals('', $response->get());
 
         $this->assertCount(1, $transactions);
 
