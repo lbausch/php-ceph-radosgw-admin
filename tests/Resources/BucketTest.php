@@ -149,7 +149,7 @@ EOT),
         $transactions = [];
 
         $config = $this->getConfigWithMockedHandlers($transactions, [
-            new Response(),
+            new Response(200, [], '[]'),
         ]);
 
         $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
@@ -164,7 +164,7 @@ EOT),
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('http://gateway/admin/bucket?index=&bucket=mybucket', $request->getUri());
 
-        $this->assertEquals('', $response->get());
+        $this->assertEquals([], $response->get());
     }
 
     /**

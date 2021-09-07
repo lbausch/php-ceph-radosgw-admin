@@ -24,14 +24,16 @@ final class UsageTest extends TestCase
         $transactions = [];
 
         $config = $this->getConfigWithMockedHandlers($transactions, [
-            new Response(),
+            new Response(200, [], '{"entries":[]}'),
         ]);
 
         $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
 
         $response = $client->usage()->info();
 
-        $this->assertEquals('', $response->get());
+        $this->assertEquals([
+            'entries' => [],
+        ], $response->get());
 
         $this->assertCount(1, $transactions);
 
