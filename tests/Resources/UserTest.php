@@ -229,4 +229,113 @@ EOT),
         $this->assertEquals('DELETE', $request->getMethod());
         $this->assertEquals('http://gateway/admin/user?key=&access-key=access%20key', $request->getUri());
     }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::createSubuser
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testSubuserIsCreated()
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], '[{"id":"foo:bar","permissions":"<none>"}]'),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->createSubuser('foo', 'bar');
+
+        $this->assertEquals([
+            [
+                'id' => 'foo:bar',
+                'permissions' => '<none>',
+            ],
+        ], $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertEquals('PUT', $request->getMethod());
+        $this->assertEquals('http://gateway/admin/user?uid=foo&subuser=bar', $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::modifySubuser
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testSubuserIsModified()
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], '[{"id":"foo:bar","permissions":"read"}]'),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->modifySubuser('foo', 'bar', ['access' => 'read']);
+
+        $this->assertEquals([
+            [
+                'id' => 'foo:bar',
+                'permissions' => 'read',
+            ],
+        ], $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('http://gateway/admin/user?uid=foo&subuser=bar&access=read', $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::deleteSubuser
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testSubuserIsDeleted()
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->deleteSubuser('foo', 'bar');
+
+        $this->assertEquals('', $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('http://gateway/admin/user?uid=foo&subuser=bar', $request->getUri());
+    }
 }
