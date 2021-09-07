@@ -12,7 +12,7 @@ A PHP REST client for the [Ceph](https://ceph.io/) [Object Gateway](https://docs
 ## Features
 + Supports all endpoints of the [Admin Ops API](https://docs.ceph.com/en/latest/radosgw/adminops/), including currently undocumented `metadata/` endpoints
 + Requests are signed using AWS Signature V2 and V4
-+ Provides S3Client with no extra configuration by utilizing the [AWS SDK for PHP
++ Provides S3 Client with no extra configuration by utilizing the [AWS SDK for PHP
 ](https://aws.amazon.com/sdk-for-php/)
 + Extensible and customizable
 
