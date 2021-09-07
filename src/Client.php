@@ -93,7 +93,7 @@ class Client
     /**
      * Get S3 client.
      */
-    public function getS3Client(string $key = null, string $secret = null): S3Client
+    public function getS3Client(string $key = null, string $secret = null, array $options = []): S3Client
     {
         $credentials = $this->config->get('credentials');
 
@@ -101,12 +101,14 @@ class Client
             $credentials = new Credentials($key, $secret);
         }
 
-        return new S3Client([
+        $options = array_merge([
             'endpoint' => $this->config->get('base_uri'),
             'credentials' => $credentials,
             'version' => $this->config->get('version'),
             'region' => $this->config->get('region'),
-        ]);
+        ], $options);
+
+        return new S3Client($options);
     }
 
     /**
