@@ -80,4 +80,111 @@ class User extends AbstractResource
             ],
         ]);
     }
+
+    /**
+     * Create key.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#create-key
+     */
+    public function createKey(string $uid, array $data = []): ApiResponse
+    {
+        return $this->api->put($this->endpoint, [
+            RequestOptions::QUERY => array_merge([
+                'key' => '',
+                'uid' => $uid,
+            ], $data),
+        ]);
+    }
+
+    /**
+     * Delete key.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-key
+     */
+    public function deleteKey(string $accessKey, array $data = []): ApiResponse
+    {
+        return $this->api->delete($this->endpoint, [
+            RequestOptions::QUERY => array_merge([
+                'key' => '',
+                'access-key' => $accessKey,
+            ], $data),
+        ]);
+    }
+
+    /**
+     * Create subuser.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#create-subuser
+     */
+    public function createSubuser(string $uid, string $subuser, array $data = []): ApiResponse
+    {
+        return $this->api->put($this->endpoint, [
+            RequestOptions::QUERY => array_merge([
+                'uid' => $uid,
+                'subuser' => $subuser,
+            ], $data),
+        ]);
+    }
+
+    /**
+     * Modify subuser.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#modify-subuser
+     */
+    public function modifySubuser(string $uid, string $subuser, array $data = []): ApiResponse
+    {
+        return $this->api->post($this->endpoint, [
+            RequestOptions::QUERY => array_merge([
+                'uid' => $uid,
+                'subuser' => $subuser,
+            ], $data),
+        ]);
+    }
+
+    /**
+     * Delete subuser.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-subuser
+     */
+    public function deleteSubuser(string $uid, string $subuser, array $data = []): ApiResponse
+    {
+        return $this->api->delete($this->endpoint, [
+            RequestOptions::QUERY => array_merge([
+                'uid' => $uid,
+                'subuser' => $subuser,
+            ], $data),
+        ]);
+    }
+
+    /**
+     * Add capability.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#add-a-user-capability
+     */
+    public function addCapability(string $uid, string $userCaps): ApiResponse
+    {
+        return $this->api->put($this->endpoint, [
+            RequestOptions::QUERY => [
+                'caps' => '',
+                'uid' => $uid,
+                'user-caps' => $userCaps,
+            ],
+        ]);
+    }
+
+    /**
+     * Delete capability.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-a-user-capability
+     */
+    public function deleteCapability(string $uid, string $userCaps): ApiResponse
+    {
+        return $this->api->delete($this->endpoint, [
+            RequestOptions::QUERY => [
+                'caps' => '',
+                'uid' => $uid,
+                'user-caps' => $userCaps,
+            ],
+        ]);
+    }
 }
