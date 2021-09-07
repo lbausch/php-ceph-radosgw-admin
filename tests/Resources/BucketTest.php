@@ -112,6 +112,8 @@ EOT),
             'bucket' => 'mybucket',
         ]);
 
+        $this->assertCount(1, $transactions);
+
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
@@ -154,6 +156,8 @@ EOT),
 
         $response = $client->bucket()->check('mybucket');
 
+        $this->assertCount(1, $transactions);
+
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
@@ -192,6 +196,8 @@ EOT),
         $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
 
         $response = $client->bucket()->policy('mybucket');
+
+        $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
