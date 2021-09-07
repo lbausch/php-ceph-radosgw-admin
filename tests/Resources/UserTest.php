@@ -39,8 +39,7 @@ final class UserTest extends TestCase
         $request = $transactions[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('gateway', $request->getUri()->getHost());
-        $this->assertEquals('/admin/metadata/user', $request->getUri()->getPath());
+        $this->assertEquals('http://gateway/admin/metadata/user', $request->getUri());
     }
 
     /**
@@ -125,8 +124,7 @@ EOT),
         $request = $transactions[0]['request'];
 
         $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('/admin/user', $request->getUri()->getPath());
-        $this->assertEquals('uid=foo&display-name=foo%20bar', $request->getUri()->getQuery());
+        $this->assertEquals('http://gateway/admin/user?uid=foo&display-name=foo%20bar', $request->getUri());
     }
 
     /**
@@ -163,7 +161,6 @@ EOT),
         $request = $transactions[0]['request'];
 
         $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/admin/user', $request->getUri()->getPath());
-        $this->assertEquals('uid=foo&display-name=baz', $request->getUri()->getQuery());
+        $this->assertEquals('http://gateway/admin/user?uid=foo&display-name=baz', $request->getUri());
     }
 }

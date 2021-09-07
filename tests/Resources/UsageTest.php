@@ -39,8 +39,7 @@ final class UsageTest extends TestCase
         $request = $transactions[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('gateway', $request->getUri()->getHost());
-        $this->assertEquals('/admin/usage', $request->getUri()->getPath());
+        $this->assertEquals('http://gateway/admin/usage', $request->getUri());
     }
 
     /**
