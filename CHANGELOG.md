@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support adding and removing capabilities
 - Support managing user quotas
 - Support managing bucket quotas
+- Support setting quota on indivual bucket
 - Added more tests
 ### Changed
 - Improved README

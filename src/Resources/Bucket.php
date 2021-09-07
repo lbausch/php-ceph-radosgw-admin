@@ -118,4 +118,21 @@ class Bucket extends AbstractResource
             ],
         ]);
     }
+
+    /**
+     * Set bucket quota.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#set-quota-for-an-individual-bucket
+     */
+    public function setQuota(string $uid, string $bucket, array $quota): ApiResponse
+    {
+        return $this->api->put($this->endpoint, [
+            RequestOptions::QUERY => [
+                'quota' => '',
+                'uid' => $uid,
+                'bucket' => $bucket,
+            ],
+            RequestOptions::BODY => json_encode($quota),
+        ]);
+    }
 }
