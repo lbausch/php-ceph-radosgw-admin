@@ -24,6 +24,8 @@ class User extends AbstractResource
 
     /**
      * Get user info.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-user-info
      */
     public function info(string $uid): ApiResponse
     {
@@ -36,6 +38,8 @@ class User extends AbstractResource
 
     /**
      * Create user.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#create-user
      */
     public function create(string $uid, $displayName, array $data = []): ApiResponse
     {
@@ -50,6 +54,8 @@ class User extends AbstractResource
 
     /**
      * Modify user.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#modify-user
      */
     public function modify(string $uid, array $data = []): ApiResponse
     {
@@ -62,6 +68,8 @@ class User extends AbstractResource
 
     /**
      * Delete user.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-user
      */
     public function delete(string $uid, bool $purgeData = false): ApiResponse
     {

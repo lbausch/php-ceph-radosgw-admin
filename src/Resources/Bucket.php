@@ -22,6 +22,8 @@ class Bucket extends AbstractResource
 
     /**
      * Get bucket info.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-bucket-info
      */
     public function info(array $data): ApiResponse
     {
@@ -32,6 +34,8 @@ class Bucket extends AbstractResource
 
     /**
      * Remove bucket.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#unlink-bucket
      */
     public function delete(string $bucket, array $data = []): ApiResponse
     {
@@ -42,6 +46,8 @@ class Bucket extends AbstractResource
 
     /**
      * Check bucket index.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#check-bucket-index
      */
     public function check(string $bucket, array $data = []): ApiResponse
     {
@@ -55,6 +61,8 @@ class Bucket extends AbstractResource
 
     /**
      * Link bucket.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#link-bucket
      */
     public function link(string $bucket, string $uid, array $data = []): ApiResponse
     {
@@ -68,6 +76,8 @@ class Bucket extends AbstractResource
 
     /**
      * Unlink bucket.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#unlink-bucket
      */
     public function unlink(string $bucket, string $uid): ApiResponse
     {
@@ -81,6 +91,8 @@ class Bucket extends AbstractResource
 
     /**
      * Read the policy of an object or bucket.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-bucket-or-object-policy
      */
     public function policy(string $bucket, array $data = []): ApiResponse
     {
