@@ -8,6 +8,10 @@ A PHP REST client for the [Ceph](https://ceph.io/) [Object Gateway](https://docs
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Admin Client](#admin-client)
+  - [Handling Exceptions](#handling-exceptions)
+  - [S3 Client](#s3-client)
+  - [Custom Configuration](#custom-configuration)
 
 ## Features
 + Supports all endpoints of the [Admin Ops API](https://docs.ceph.com/en/latest/radosgw/adminops/), including currently undocumented `metadata/` endpoints
