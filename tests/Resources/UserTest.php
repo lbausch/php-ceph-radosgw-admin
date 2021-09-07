@@ -50,6 +50,49 @@ final class UserTest extends TestCase
      * @covers \LBausch\CephRadosgwAdmin\Config
      * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
      * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::info
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testUserInfoIsReturned(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], <<<'EOT'
+{
+    "tenant": "foo",
+    "user_id": "bar",
+    "display_name": "foobar"
+}
+EOT),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->info('foo$bar');
+
+        $this->assertEquals([
+            'tenant' => 'foo',
+            'user_id' => 'bar',
+            'display_name' => 'foobar',
+        ], $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('http://gateway/admin/user?uid=foo%24bar', $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::create
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::canonicalizedAmzHeaders
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::canonicalizedResource
