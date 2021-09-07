@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Allow to pass arbitrary options when creating S3 client
+- Support removing objects from buckets
 - Added more tests
 ### Changed
 - Improved README

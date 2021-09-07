@@ -103,4 +103,19 @@ class Bucket extends AbstractResource
             ], $data),
         ]);
     }
+
+    /**
+     * Remove object.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-object
+     */
+    public function removeObject(string $bucket, string $object): ApiResponse
+    {
+        return $this->api->delete($this->endpoint, [
+            RequestOptions::QUERY => [
+                'bucket' => $bucket,
+                'object' => $object,
+            ],
+        ]);
+    }
 }

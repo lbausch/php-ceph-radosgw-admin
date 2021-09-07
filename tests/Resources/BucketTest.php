@@ -279,4 +279,37 @@ EOT),
             ],
         ], $response->get());
     }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::removeObject
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testBucketObjectIsRemoved()
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->bucket()->removeObject('mybucket', 'foo');
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('http://gateway/admin/bucket?bucket=mybucket&object=foo', $request->getUri());
+
+        $this->assertEquals('', $response->get());
+    }
 }
