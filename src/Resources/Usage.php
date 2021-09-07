@@ -2,6 +2,7 @@
 
 namespace LBausch\CephRadosgwAdmin\Resources;
 
+use GuzzleHttp\RequestOptions;
 use LBausch\CephRadosgwAdmin\ApiResponse;
 
 class Usage extends AbstractResource
@@ -17,7 +18,7 @@ class Usage extends AbstractResource
     public function info(array $data = []): ApiResponse
     {
         return $this->api->get($this->endpoint, [
-            'query' => $data,
+            RequestOptions::QUERY => $data,
         ]);
     }
 
@@ -27,7 +28,7 @@ class Usage extends AbstractResource
     public function trim(array $data = []): ApiResponse
     {
         return $this->api->delete($this->endpoint, [
-            'query' => $data,
+            RequestOptions::QUERY => $data,
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace LBausch\CephRadosgwAdmin\Resources;
 
+use GuzzleHttp\RequestOptions;
 use LBausch\CephRadosgwAdmin\ApiResponse;
 
 class Bucket extends AbstractResource
@@ -25,7 +26,7 @@ class Bucket extends AbstractResource
     public function info(array $data): ApiResponse
     {
         return $this->api->get($this->endpoint, [
-            'query' => $data,
+            RequestOptions::QUERY => $data,
         ]);
     }
 
@@ -35,7 +36,7 @@ class Bucket extends AbstractResource
     public function delete(string $bucket, array $data = []): ApiResponse
     {
         return $this->api->delete($this->endpoint, [
-            'query' => array_merge(['bucket' => $bucket], $data),
+            RequestOptions::QUERY => array_merge(['bucket' => $bucket], $data),
         ]);
     }
 
@@ -45,7 +46,7 @@ class Bucket extends AbstractResource
     public function check(string $bucket, array $data = []): ApiResponse
     {
         return $this->api->get($this->endpoint, [
-            'query' => array_merge([
+            RequestOptions::QUERY => array_merge([
                 'index' => '',
                 'bucket' => $bucket,
             ], $data),
@@ -58,7 +59,7 @@ class Bucket extends AbstractResource
     public function link(string $bucket, string $uid, array $data = []): ApiResponse
     {
         return $this->api->put($this->endpoint, [
-            'query' => array_merge([
+            RequestOptions::QUERY => array_merge([
                 'bucket' => $bucket,
                 'uid' => $uid,
             ], $data),
@@ -71,7 +72,7 @@ class Bucket extends AbstractResource
     public function unlink(string $bucket, string $uid): ApiResponse
     {
         return $this->api->post($this->endpoint, [
-            'query' => [
+            RequestOptions::QUERY => [
                 'bucket' => $bucket,
                 'uid' => $uid,
             ],
@@ -84,7 +85,7 @@ class Bucket extends AbstractResource
     public function policy(string $bucket, array $data = []): ApiResponse
     {
         return $this->api->get($this->endpoint, [
-            'query' => array_merge([
+            RequestOptions::QUERY => array_merge([
                 'policy' => '',
                 'bucket' => $bucket,
             ], $data),

@@ -2,6 +2,7 @@
 
 namespace LBausch\CephRadosgwAdmin\Resources;
 
+use GuzzleHttp\RequestOptions;
 use LBausch\CephRadosgwAdmin\ApiResponse;
 use LBausch\CephRadosgwAdmin\Signature\AbstractSignature;
 use LBausch\CephRadosgwAdmin\Signature\SignatureV2;
@@ -27,7 +28,7 @@ class User extends AbstractResource
     public function info(string $uid): ApiResponse
     {
         return $this->api->get($this->endpoint, [
-            'query' => [
+            RequestOptions::QUERY => [
                 'uid' => $uid,
             ],
         ]);
@@ -39,7 +40,7 @@ class User extends AbstractResource
     public function create(string $uid, $displayName, array $data = []): ApiResponse
     {
         return $this->api->put($this->endpoint, [
-            'query' => array_merge([
+            RequestOptions::QUERY => array_merge([
                 'uid' => $uid,
                 'display-name' => $displayName,
             ], $data),
@@ -53,7 +54,7 @@ class User extends AbstractResource
     public function modify(string $uid, array $data = []): ApiResponse
     {
         return $this->api->post($this->endpoint, [
-            'query' => array_merge([
+            RequestOptions::QUERY => array_merge([
                 'uid' => $uid,
             ], $data),
         ]);
@@ -65,7 +66,7 @@ class User extends AbstractResource
     public function delete(string $uid, bool $purgeData = false): ApiResponse
     {
         return $this->api->delete($this->endpoint, [
-            'query' => [
+            RequestOptions::QUERY => [
                 'uid' => $uid,
                 'purge-data' => $purgeData,
             ],
