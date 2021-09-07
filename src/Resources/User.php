@@ -187,4 +187,37 @@ class User extends AbstractResource
             ],
         ]);
     }
+
+    /**
+     * Get user quota.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-user-quota
+     */
+    public function getQuota(string $uid): ApiResponse
+    {
+        return $this->api->get($this->endpoint, [
+            RequestOptions::QUERY => [
+                'quota' => '',
+                'uid' => $uid,
+                'quota-type' => 'user',
+            ],
+        ]);
+    }
+
+    /**
+     * Set user quota.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#set-user-quota
+     */
+    public function setQuota(string $uid, array $quota): ApiResponse
+    {
+        return $this->api->put($this->endpoint, [
+            RequestOptions::QUERY => [
+                'quota' => '',
+                'uid' => $uid,
+                'quota-type' => 'user',
+            ],
+            RequestOptions::BODY => json_encode($quota),
+        ]);
+    }
 }

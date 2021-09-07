@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support removing objects from buckets
 - Support creating, modifying and removing subusers
 - Support adding and removing capabilities
+- Support managing user quotas
 - Added more tests
 ### Changed
 - Improved README
