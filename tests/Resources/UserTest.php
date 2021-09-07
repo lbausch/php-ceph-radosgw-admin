@@ -338,4 +338,75 @@ EOT),
         $this->assertEquals('DELETE', $request->getMethod());
         $this->assertEquals('http://gateway/admin/user?uid=foo&subuser=bar', $request->getUri());
     }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::addCapability
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testCapabilityIsAdded()
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], '[{"type":"usage","perm":"read"}]'),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->addCapability('foo', 'usage=read');
+
+        $this->assertEquals([
+            [
+                'type' => 'usage',
+                'perm' => 'read',
+            ],
+        ], $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertEquals('PUT', $request->getMethod());
+        $this->assertEquals('http://gateway/admin/user?caps=&uid=foo&user-caps=usage%3Dread', $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::deleteCapability
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testCapabilityIsDeleted()
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], '[]'),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->deleteCapability('foo', 'usage=read');
+
+        $this->assertEquals([], $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('http://gateway/admin/user?caps=&uid=foo&user-caps=usage%3Dread', $request->getUri());
+    }
 }
