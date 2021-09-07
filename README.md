@@ -89,16 +89,34 @@ $client = Client::make('http://gateway:8080', 'access key', 'secret key');
 
 $s3client = $client->getS3Client();
 
-// Or use different credentials
+// Use different credentials
 // $s3client = $client->getS3Client('different access key', 'different secret key');
 
+// Pass arbitrary options to S3 client
+// $s3client = $client->getS3Client('different access key', 'different secret key', [
+//     'http' => [
+//         'verify' => false,
+//     ],
+// ]);
+
+// Create a bucket
+$s3client->createBucket([
+    'Bucket' => 'mybucket',
+]);
+
+// List all buckets
 $buckets = $s3client->listBuckets();
 
 foreach ($buckets['Buckets'] as $bucket) {
-    echo $bucket['Name'].PHP_EOL;
+    echo $bucket['Name'].PHP_EOL; // mybucket
 }
 
-// mybucket
+// Put an object in the bucket
+$s3client->putObject([
+    'Bucket' => 'mybucket',
+    'SourceFile' => 'foobar.png',
+    'Key' => 'foobar.png',
+]);
 ```
 
 ### Custom Configuration
