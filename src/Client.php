@@ -126,6 +126,6 @@ class Client
             throw new InvalidArgumentException('Invalid resource '.$resource);
         }
 
-        return call_user_func([$resource, 'withClient'], $this);
+        return call_user_func([$resource, 'withClient'], $this); // @phpstan-ignore-line
     }
 }
