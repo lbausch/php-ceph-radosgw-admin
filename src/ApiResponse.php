@@ -91,7 +91,7 @@ class ApiResponse
             return $default;
         }
 
-        return $this->decoded[$name];
+        return $this->decoded[$name]; // @phpstan-ignore-line
     }
 
     /**
