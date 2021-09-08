@@ -41,7 +41,7 @@ class User extends AbstractResource
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#create-user
      */
-    public function create(string $uid, $displayName, array $data = []): ApiResponse
+    public function create(string $uid, string $displayName, array $data = []): ApiResponse
     {
         return $this->api->put($this->endpoint, [
             RequestOptions::QUERY => array_merge([
