@@ -24,7 +24,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get a handler stack with history middleware.
      *
-     * https://docs.guzzlephp.org/en/stable/testing.html#history-middleware
+     * @see https://docs.guzzlephp.org/en/stable/testing.html#history-middleware
      */
     protected function getHandlerStack(array &$container): HandlerStack
     {
@@ -40,7 +40,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get a mock handler.
      *
-     * https://docs.guzzlephp.org/en/stable/testing.html#mock-handler
+     * @see https://docs.guzzlephp.org/en/stable/testing.html#mock-handler
      */
     protected function getMockHandler(array $responses = []): MockHandler
     {
