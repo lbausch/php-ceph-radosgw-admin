@@ -218,6 +218,7 @@ class User extends AbstractResource
                 'quota-type' => 'user',
             ],
             RequestOptions::BODY => json_encode($quota),
+            AbstractSignature::SIGNATURE_OPTION => SignatureV2::class,
         ]);
     }
 
@@ -251,6 +252,7 @@ class User extends AbstractResource
                 'quota-type' => 'bucket',
             ],
             RequestOptions::BODY => json_encode($quota),
+            AbstractSignature::SIGNATURE_OPTION => SignatureV2::class,
         ]);
     }
 }
