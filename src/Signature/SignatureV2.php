@@ -64,6 +64,7 @@ class SignatureV2 extends AbstractSignature
      */
     protected function contentMd5(RequestInterface $request): string
     {
+        // Respect existing header
         if ($request->hasHeader('Content-MD5')) {
             return $request->getHeaderLine('Content-MD5');
         }
@@ -89,6 +90,7 @@ class SignatureV2 extends AbstractSignature
      */
     public function expires(RequestInterface $request): string
     {
+        // Respect existing header
         if ($request->hasHeader('Date')) {
             return $request->getHeaderLine('Date');
         }
