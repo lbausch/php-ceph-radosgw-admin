@@ -29,7 +29,7 @@ final class SignatureTest extends TestCase
         $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
 
         $dummyResource = new class($client) extends AbstractResource {
-            public function info()
+            public function info(): void
             {
                 $this->api->get('foo', [
                     AbstractSignature::SIGNATURE_OPTION => 'foobar',

@@ -38,7 +38,7 @@ final class ClientTest extends TestCase
      * @covers \LBausch\CephRadosgwAdmin\Client::__construct
      * @covers \LBausch\CephRadosgwAdmin\Client::getS3Client
      */
-    public function testS3ClientUsesProvidedCredentials()
+    public function testS3ClientUsesProvidedCredentials(): void
     {
         $client = Client::make('http://gateway:8080', 'key', 'secret');
 
@@ -62,7 +62,7 @@ final class ClientTest extends TestCase
      * @covers \LBausch\CephRadosgwAdmin\Client::__construct
      * @covers \LBausch\CephRadosgwAdmin\Client::getS3Client
      */
-    public function testS3ClientUsesProvidedOptions()
+    public function testS3ClientUsesProvidedOptions(): void
     {
         $client = Client::make('http://gateway:8080', 'key', 'secret');
 
@@ -86,7 +86,7 @@ final class ClientTest extends TestCase
      * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::handle
      * @covers \LBausch\CephRadosgwAdmin\Config
      */
-    public function testInvalidResourceThrowsException()
+    public function testInvalidResourceThrowsException(): void
     {
         $client = Client::make('http://gateway:8080', 'key', 'secret');
 

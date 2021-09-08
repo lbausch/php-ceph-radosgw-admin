@@ -50,7 +50,7 @@ final class SignatureV2Test extends TestCase
      * @covers \LBausch\CephRadosgwAdmin\Config
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::contentMd5
      */
-    public function testChecksumForRequestBodyIsCalculatedCorrectly()
+    public function testChecksumForRequestBodyIsCalculatedCorrectly(): void
     {
         $requestWithoutBody = new Request('POST', 'http://gateway/foo', [
             'Accept' => 'application/json',
@@ -102,7 +102,7 @@ final class SignatureV2Test extends TestCase
      * @covers \LBausch\CephRadosgwAdmin\Config
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::expires
      */
-    public function testRequestHasExpireDate()
+    public function testRequestHasExpireDate(): void
     {
         $request = new Request('GET', 'http://gateway/foo', [
             'Accept' => 'application/json',

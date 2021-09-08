@@ -85,7 +85,7 @@ final class BucketTest extends TestCase
      * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::info
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testBucketInfoIsRetrieved()
+    public function testBucketInfoIsRetrieved(): void
     {
         $transactions = [];
 
@@ -144,7 +144,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::check
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testBucketIndexIsChecked()
+    public function testBucketIndexIsChecked(): void
     {
         $transactions = [];
 
@@ -177,7 +177,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::link
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testBucketIsLinked()
+    public function testBucketIsLinked(): void
     {
         $transactions = [];
 
@@ -210,7 +210,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::unlink
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testBucketIsUnlinked()
+    public function testBucketIsUnlinked(): void
     {
         $transactions = [];
 
@@ -243,7 +243,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::policy
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testBucketPolicyIsRetrieved()
+    public function testBucketPolicyIsRetrieved(): void
     {
         $transactions = [];
 
@@ -290,7 +290,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::removeObject
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testBucketObjectIsRemoved()
+    public function testBucketObjectIsRemoved(): void
     {
         $transactions = [];
 
@@ -323,7 +323,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::setQuota
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2
      */
-    public function testBucketQuotaIsSet()
+    public function testBucketQuotaIsSet(): void
     {
         $transactions = [];
 

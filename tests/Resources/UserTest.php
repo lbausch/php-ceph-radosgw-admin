@@ -174,7 +174,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::createKey
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testKeyIsCreated()
+    public function testKeyIsCreated(): void
     {
         $transactions = [];
 
@@ -207,7 +207,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::deleteKey
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testKeyIsDeleted()
+    public function testKeyIsDeleted(): void
     {
         $transactions = [];
 
@@ -240,7 +240,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::createSubuser
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testSubuserIsCreated()
+    public function testSubuserIsCreated(): void
     {
         $transactions = [];
 
@@ -278,7 +278,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::modifySubuser
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testSubuserIsModified()
+    public function testSubuserIsModified(): void
     {
         $transactions = [];
 
@@ -316,7 +316,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::deleteSubuser
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testSubuserIsDeleted()
+    public function testSubuserIsDeleted(): void
     {
         $transactions = [];
 
@@ -349,7 +349,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::addCapability
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testCapabilityIsAdded()
+    public function testCapabilityIsAdded(): void
     {
         $transactions = [];
 
@@ -387,7 +387,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::deleteCapability
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testCapabilityIsDeleted()
+    public function testCapabilityIsDeleted(): void
     {
         $transactions = [];
 
@@ -420,7 +420,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::getQuota
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testUserQuotaIsReturned()
+    public function testUserQuotaIsReturned(): void
     {
         $transactions = [];
 
@@ -459,7 +459,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::setQuota
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2
      */
-    public function testUserQuotaIsSet()
+    public function testUserQuotaIsSet(): void
     {
         $transactions = [];
 
@@ -492,7 +492,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::getBucketQuota
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testBucketQuotaIsReturned()
+    public function testBucketQuotaIsReturned(): void
     {
         $transactions = [];
 
@@ -531,7 +531,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::setBucketQuota
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2
      */
-    public function testBucketQuotaIsSet()
+    public function testBucketQuotaIsSet(): void
     {
         $transactions = [];
 
