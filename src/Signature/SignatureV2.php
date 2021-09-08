@@ -68,6 +68,11 @@ class SignatureV2 extends AbstractSignature
             return $request->getHeaderLine('Content-MD5');
         }
 
+        // Do not calculate MD5 for GET and PUT requests
+        if (in_array($request->getMethod(), ['GET', 'PUT'])) {
+            return '';
+        }
+
         $body = $request->getBody();
 
         if (null === $body->getSize() || 0 === $body->getSize()) {

@@ -50,23 +50,38 @@ final class SignatureV2Test extends TestCase
      * @covers \LBausch\CephRadosgwAdmin\Config
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::contentMd5
      */
-    public function testRequestBodyIsSigned()
+    public function testChecksumForRequestBodyIsCalculatedCorrectly()
     {
-        $requestWithoutBody = new Request('GET', 'http://gateway/foo', [
+        $requestWithoutBody = new Request('POST', 'http://gateway/foo', [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
         ]);
 
-        $requestWithBody = new Request('GET', 'http://gateway/foo', [
+        $requestWithBody = new Request('POST', 'http://gateway/foo', [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
         ], '{"foo":"bar"}');
 
-        $requestWithExistingHeader = new Request('GET', 'http://gateway/foo', [
+        $requestWithExistingHeader = new Request('POST', 'http://gateway/foo', [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
             'Content-MD5' => '32ba4e1f433e6cadc4e7599787fbcc5e',
         ]);
+
+        $requestPOST = new Request('POST', 'http://gateway/foo', [
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ], '{"foo":"bar"}');
+
+        $requestGET = new Request('GET', 'http://gateway/foo', [
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ], '{"foo":"bar"}');
+
+        $requestPUT = new Request('PUT', 'http://gateway/foo', [
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ], '{"foo":"bar"}');
 
         $signature = new class() extends SignatureV2 {
             public function contentMd5(RequestInterface $request): string
@@ -78,6 +93,9 @@ final class SignatureV2Test extends TestCase
         $this->assertEquals('', $signature->contentMd5($requestWithoutBody));
         $this->assertEquals('9bb58f26192e4ba00f01e2e7b136bbd8', $signature->contentMd5($requestWithBody));
         $this->assertEquals('32ba4e1f433e6cadc4e7599787fbcc5e', $signature->contentMd5($requestWithExistingHeader));
+        $this->assertEquals('9bb58f26192e4ba00f01e2e7b136bbd8', $signature->contentMd5($requestPOST));
+        $this->assertEquals('', $signature->contentMd5($requestGET));
+        $this->assertEquals('', $signature->contentMd5($requestPUT));
     }
 
     /**
