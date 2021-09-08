@@ -4,6 +4,8 @@ namespace LBausch\CephRadosgwAdmin\Resources;
 
 use GuzzleHttp\RequestOptions;
 use LBausch\CephRadosgwAdmin\ApiResponse;
+use LBausch\CephRadosgwAdmin\Signature\AbstractSignature;
+use LBausch\CephRadosgwAdmin\Signature\SignatureV2;
 
 class Bucket extends AbstractResource
 {
@@ -133,6 +135,7 @@ class Bucket extends AbstractResource
                 'bucket' => $bucket,
             ],
             RequestOptions::BODY => json_encode($quota),
+            AbstractSignature::SIGNATURE_OPTION => SignatureV2::class,
         ]);
     }
 }

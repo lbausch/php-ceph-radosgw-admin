@@ -321,7 +321,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
      * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
      * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::setQuota
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2
      */
     public function testBucketQuotaIsSet()
     {
