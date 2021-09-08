@@ -87,7 +87,7 @@ class ApiResponse
             return $this->decoded;
         }
 
-        if (!$this->has($name)) {
+        if (null === $name || !$this->has($name)) {
             return $default;
         }
 
