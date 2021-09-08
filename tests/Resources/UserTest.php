@@ -31,15 +31,15 @@ final class UserTest extends TestCase
 
         $response = $client->user()->list();
 
-        $this->assertEquals(['foobar'], $response->get());
+        $this->assertSame(['foobar'], $response->get());
 
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/metadata/user', $request->getUri());
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/metadata/user', (string) $request->getUri());
     }
 
     /**
@@ -70,7 +70,7 @@ EOT),
 
         $response = $client->user()->info('foo$bar');
 
-        $this->assertEquals([
+        $this->assertSame([
             'tenant' => 'foo',
             'user_id' => 'bar',
             'display_name' => 'foobar',
@@ -81,8 +81,8 @@ EOT),
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?uid=foo%24bar', $request->getUri());
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?uid=foo%24bar', (string) $request->getUri());
     }
 
     /**
@@ -112,7 +112,7 @@ EOT),
 
         $response = $client->user()->create('foo', 'foo bar');
 
-        $this->assertEquals([
+        $this->assertSame([
             'tenant' => '',
             'user_id' => 'foo',
             'display_name' => 'foo bar',
@@ -123,8 +123,8 @@ EOT),
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?uid=foo&display-name=foo%20bar', $request->getUri());
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?uid=foo&display-name=foo%20bar', (string) $request->getUri());
     }
 
     /**
@@ -149,7 +149,7 @@ EOT),
 
         $response = $client->user()->modify('foo', ['display-name' => 'baz']);
 
-        $this->assertEquals([
+        $this->assertSame([
             'tenant' => '',
             'user_id' => 'foo',
             'display_name' => 'baz',
@@ -160,8 +160,8 @@ EOT),
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?uid=foo&display-name=baz', $request->getUri());
+        $this->assertSame('POST', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?uid=foo&display-name=baz', (string) $request->getUri());
     }
 
     /**
@@ -186,15 +186,15 @@ EOT),
 
         $response = $client->user()->createKey('foo');
 
-        $this->assertEquals('', $response->get());
+        $this->assertNull($response->get());
 
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?key=&uid=foo', $request->getUri());
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?key=&uid=foo', (string) $request->getUri());
     }
 
     /**
@@ -219,15 +219,15 @@ EOT),
 
         $response = $client->user()->deleteKey('access key');
 
-        $this->assertEquals('', $response->get());
+        $this->assertNull($response->get());
 
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?key=&access-key=access%20key', $request->getUri());
+        $this->assertSame('DELETE', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?key=&access-key=access%20key', (string) $request->getUri());
     }
 
     /**
@@ -252,7 +252,7 @@ EOT),
 
         $response = $client->user()->createSubuser('foo', 'bar');
 
-        $this->assertEquals([
+        $this->assertSame([
             [
                 'id' => 'foo:bar',
                 'permissions' => '<none>',
@@ -264,8 +264,8 @@ EOT),
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?uid=foo&subuser=bar', $request->getUri());
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?uid=foo&subuser=bar', (string) $request->getUri());
     }
 
     /**
@@ -290,7 +290,7 @@ EOT),
 
         $response = $client->user()->modifySubuser('foo', 'bar', ['access' => 'read']);
 
-        $this->assertEquals([
+        $this->assertSame([
             [
                 'id' => 'foo:bar',
                 'permissions' => 'read',
@@ -302,8 +302,8 @@ EOT),
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?uid=foo&subuser=bar&access=read', $request->getUri());
+        $this->assertSame('POST', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?uid=foo&subuser=bar&access=read', (string) $request->getUri());
     }
 
     /**
@@ -328,15 +328,15 @@ EOT),
 
         $response = $client->user()->deleteSubuser('foo', 'bar');
 
-        $this->assertEquals('', $response->get());
+        $this->assertNull($response->get());
 
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?uid=foo&subuser=bar', $request->getUri());
+        $this->assertSame('DELETE', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?uid=foo&subuser=bar', (string) $request->getUri());
     }
 
     /**
@@ -361,7 +361,7 @@ EOT),
 
         $response = $client->user()->addCapability('foo', 'usage=read');
 
-        $this->assertEquals([
+        $this->assertSame([
             [
                 'type' => 'usage',
                 'perm' => 'read',
@@ -373,8 +373,8 @@ EOT),
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?caps=&uid=foo&user-caps=usage%3Dread', $request->getUri());
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?caps=&uid=foo&user-caps=usage%3Dread', (string) $request->getUri());
     }
 
     /**
@@ -399,15 +399,15 @@ EOT),
 
         $response = $client->user()->deleteCapability('foo', 'usage=read');
 
-        $this->assertEquals([], $response->get());
+        $this->assertSame([], $response->get());
 
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?caps=&uid=foo&user-caps=usage%3Dread', $request->getUri());
+        $this->assertSame('DELETE', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?caps=&uid=foo&user-caps=usage%3Dread', (string) $request->getUri());
     }
 
     /**
@@ -432,7 +432,7 @@ EOT),
 
         $response = $client->user()->getQuota('foo');
 
-        $this->assertEquals([
+        $this->assertSame([
             'enabled' => false,
             'check_on_raw' => false,
             'max_size' => -1,
@@ -445,8 +445,8 @@ EOT),
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?quota=&uid=foo&quota-type=user', $request->getUri());
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=user', (string) $request->getUri());
     }
 
     /**
@@ -471,15 +471,15 @@ EOT),
 
         $response = $client->user()->setQuota('foo', ['enabled' => true]);
 
-        $this->assertEquals('', $response->get());
+        $this->assertNull($response->get());
 
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?quota=&uid=foo&quota-type=user', $request->getUri());
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=user', (string) $request->getUri());
     }
 
     /**
@@ -504,7 +504,7 @@ EOT),
 
         $response = $client->user()->getBucketQuota('foo');
 
-        $this->assertEquals([
+        $this->assertSame([
             'enabled' => false,
             'check_on_raw' => false,
             'max_size' => -1,
@@ -517,8 +517,8 @@ EOT),
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?quota=&uid=foo&quota-type=bucket', $request->getUri());
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=bucket', (string) $request->getUri());
     }
 
     /**
@@ -543,14 +543,14 @@ EOT),
 
         $response = $client->user()->setBucketQuota('foo', ['enabled' => true]);
 
-        $this->assertEquals('', $response->get());
+        $this->assertNull($response->get());
 
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/user?quota=&uid=foo&quota-type=bucket', $request->getUri());
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=bucket', (string) $request->getUri());
     }
 }

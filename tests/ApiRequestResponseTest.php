@@ -44,9 +44,9 @@ final class RequestResponseTest extends TestCase
         $this->assertTrue($response->has('foo'));
         $this->assertFalse($response->failed());
 
-        $this->assertEquals(['foo' => 'bar'], $response->get());
-        $this->assertEquals('bar', $response->get('foo'));
-        $this->assertEquals('baz', $response->get('foobar', 'baz'));
+        $this->assertSame(['foo' => 'bar'], $response->get());
+        $this->assertSame('bar', $response->get('foo'));
+        $this->assertSame('baz', $response->get('foobar', 'baz'));
     }
 
     /**

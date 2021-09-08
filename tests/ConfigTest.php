@@ -20,11 +20,11 @@ final class ConfigTest extends TestCase
         ]);
 
         $this->assertInstanceOf(Config::class, $config);
-        $this->assertEquals('s3', $config->get('service'));
-        $this->assertEquals('adm/', $config->get('adminPath'));
+        $this->assertSame('s3', $config->get('service'));
+        $this->assertSame('adm/', $config->get('adminPath'));
 
         $config->set('adminPath', 'administrator/');
 
-        $this->assertEquals('administrator/', $config->get('adminPath'));
+        $this->assertSame('administrator/', $config->get('adminPath'));
     }
 }

@@ -31,7 +31,7 @@ final class UsageTest extends TestCase
 
         $response = $client->usage()->info();
 
-        $this->assertEquals([
+        $this->assertSame([
             'entries' => [],
         ], $response->get());
 
@@ -40,8 +40,8 @@ final class UsageTest extends TestCase
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/usage', $request->getUri());
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/usage', (string) $request->getUri());
     }
 
     /**
@@ -69,14 +69,14 @@ final class UsageTest extends TestCase
             'start' => '1970-01-01 13:37:00',
         ]);
 
-        $this->assertEquals('', $response->get());
+        $this->assertNull($response->get());
 
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/usage?uid=foo&start=1970-01-01%2013%3A37%3A00', $request->getUri());
+        $this->assertSame('DELETE', $request->getMethod());
+        $this->assertSame('http://gateway/admin/usage?uid=foo&start=1970-01-01%2013%3A37%3A00', (string) $request->getUri());
     }
 }

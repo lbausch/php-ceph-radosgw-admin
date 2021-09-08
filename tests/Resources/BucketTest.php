@@ -31,15 +31,15 @@ final class BucketTest extends TestCase
 
         $response = $client->bucket()->list();
 
-        $this->assertEquals(['mybucket'], $response->get());
+        $this->assertSame(['mybucket'], $response->get());
 
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/metadata/bucket', $request->getUri());
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/metadata/bucket', (string) $request->getUri());
     }
 
     /**
@@ -64,15 +64,15 @@ final class BucketTest extends TestCase
 
         $response = $client->bucket()->delete('mybucket');
 
-        $this->assertEquals(['mybucket'], $response->get());
+        $this->assertSame(['mybucket'], $response->get());
 
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/bucket?bucket=mybucket', $request->getUri());
+        $this->assertSame('DELETE', $request->getMethod());
+        $this->assertSame('http://gateway/admin/bucket?bucket=mybucket', (string) $request->getUri());
     }
 
     /**
@@ -117,10 +117,10 @@ EOT),
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/bucket?bucket=mybucket', $request->getUri());
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/bucket?bucket=mybucket', (string) $request->getUri());
 
-        $this->assertEquals([
+        $this->assertSame([
             'bucket' => 'mybucket',
             'num_shards' => 1,
             'tenant' => '',
@@ -156,15 +156,15 @@ EOT),
 
         $response = $client->bucket()->check('mybucket');
 
+        $this->assertSame([], $response->get());
+
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/bucket?index=&bucket=mybucket', $request->getUri());
-
-        $this->assertEquals([], $response->get());
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/bucket?index=&bucket=mybucket', (string) $request->getUri());
     }
 
     /**
@@ -189,15 +189,15 @@ EOT),
 
         $response = $client->bucket()->link('mybucket', 'foobar');
 
+        $this->assertNull($response->get());
+
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/bucket?bucket=mybucket&uid=foobar', $request->getUri());
-
-        $this->assertEquals('', $response->get());
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/bucket?bucket=mybucket&uid=foobar', (string) $request->getUri());
     }
 
     /**
@@ -222,15 +222,15 @@ EOT),
 
         $response = $client->bucket()->unlink('mybucket', 'foobar');
 
+        $this->assertNull($response->get());
+
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/bucket?bucket=mybucket&uid=foobar', $request->getUri());
-
-        $this->assertEquals('', $response->get());
+        $this->assertSame('POST', $request->getMethod());
+        $this->assertSame('http://gateway/admin/bucket?bucket=mybucket&uid=foobar', (string) $request->getUri());
     }
 
     /**
@@ -268,10 +268,10 @@ EOT),
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/bucket?policy=&bucket=mybucket', $request->getUri());
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/bucket?policy=&bucket=mybucket', (string) $request->getUri());
 
-        $this->assertEquals([
+        $this->assertSame([
             'acl' => [],
             'owner' => [
                 'id' => 'foo',
@@ -302,15 +302,15 @@ EOT),
 
         $response = $client->bucket()->removeObject('mybucket', 'foo');
 
+        $this->assertNull($response->get());
+
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/bucket?bucket=mybucket&object=foo', $request->getUri());
-
-        $this->assertEquals('', $response->get());
+        $this->assertSame('DELETE', $request->getMethod());
+        $this->assertSame('http://gateway/admin/bucket?bucket=mybucket&object=foo', (string) $request->getUri());
     }
 
     /**
@@ -335,14 +335,14 @@ EOT),
 
         $response = $client->bucket()->setQuota('foo', 'mybucket', ['enabled' => true]);
 
-        $this->assertEquals('', $response->get());
+        $this->assertNull($response->get());
 
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('http://gateway/admin/bucket?quota=&uid=foo&bucket=mybucket', $request->getUri());
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/bucket?quota=&uid=foo&bucket=mybucket', (string) $request->getUri());
     }
 }

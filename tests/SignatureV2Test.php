@@ -38,10 +38,10 @@ final class SignatureV2Test extends TestCase
         $headers = $signedRequest->getHeaders();
 
         $this->assertArrayHasKey('Date', $headers);
-        $this->assertEquals(1, count($headers['Date']));
+        $this->assertSame(1, count($headers['Date']));
 
         $this->assertArrayHasKey('Authorization', $headers);
-        $this->assertEquals(1, count($headers['Authorization']));
+        $this->assertSame(1, count($headers['Authorization']));
 
         $this->assertMatchesRegularExpression('/^AWS access key:([a-zA-Z0-9+\/]){27}=$/', $headers['Authorization'][0]);
     }
@@ -90,12 +90,12 @@ final class SignatureV2Test extends TestCase
             }
         };
 
-        $this->assertEquals('', $signature->contentMd5($requestWithoutBody));
-        $this->assertEquals('9bb58f26192e4ba00f01e2e7b136bbd8', $signature->contentMd5($requestWithBody));
-        $this->assertEquals('32ba4e1f433e6cadc4e7599787fbcc5e', $signature->contentMd5($requestWithExistingHeader));
-        $this->assertEquals('9bb58f26192e4ba00f01e2e7b136bbd8', $signature->contentMd5($requestPOST));
-        $this->assertEquals('', $signature->contentMd5($requestGET));
-        $this->assertEquals('', $signature->contentMd5($requestPUT));
+        $this->assertSame('', $signature->contentMd5($requestWithoutBody));
+        $this->assertSame('9bb58f26192e4ba00f01e2e7b136bbd8', $signature->contentMd5($requestWithBody));
+        $this->assertSame('32ba4e1f433e6cadc4e7599787fbcc5e', $signature->contentMd5($requestWithExistingHeader));
+        $this->assertSame('9bb58f26192e4ba00f01e2e7b136bbd8', $signature->contentMd5($requestPOST));
+        $this->assertSame('', $signature->contentMd5($requestGET));
+        $this->assertSame('', $signature->contentMd5($requestPUT));
     }
 
     /**
@@ -126,7 +126,7 @@ final class SignatureV2Test extends TestCase
         $date = DateTime::createFromFormat(DateTime::RFC2822, $expires);
 
         $this->assertNotFalse($date);
-        $this->assertEquals($date->format(DateTime::RFC2822), $expires); // @phpstan-ignore-line
-        $this->assertEquals('foo', $signature->expires($requestWithExistingHeader));
+        $this->assertSame($date->format(DateTime::RFC2822), $expires); // @phpstan-ignore-line
+        $this->assertSame('foo', $signature->expires($requestWithExistingHeader));
     }
 }
