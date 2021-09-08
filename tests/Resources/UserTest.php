@@ -492,7 +492,7 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Resources\User::getBucketQuota
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testBUcketQuotaIsReturned()
+    public function testBucketQuotaIsReturned()
     {
         $transactions = [];
 
