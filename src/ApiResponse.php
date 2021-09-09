@@ -1,6 +1,6 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin;
+namespace LBausch\CephRadosgwAdmin;
 
 use Psr\Http\Message\ResponseInterface;
 
@@ -14,7 +14,7 @@ class ApiResponse
     /**
      * Decoded response.
      */
-    protected ?array $decoded;
+    protected ?array $decoded = null;
 
     protected function __construct(ResponseInterface $response)
     {
@@ -26,8 +26,10 @@ class ApiResponse
         $content = $body->getContents();
         $body->rewind();
 
-        // Decode the API response
-        $this->decoded = json_decode($content, $associative = true);
+        // Attempt to decode the API response
+        if ($body->getSize() > 0) {
+            $this->decoded = json_decode($content, $associative = true, $depth = 512, JSON_THROW_ON_ERROR);
+        }
     }
 
     /**
@@ -87,11 +89,11 @@ class ApiResponse
             return $this->decoded;
         }
 
-        if (!$this->has($name)) {
+        if (null === $name || !$this->has($name)) {
             return $default;
         }
 
-        return $this->decoded[$name];
+        return $this->decoded[$name]; // @phpstan-ignore-line
     }
 
     /**

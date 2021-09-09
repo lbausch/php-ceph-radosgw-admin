@@ -1,8 +1,9 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Resources;
+namespace LBausch\CephRadosgwAdmin\Resources;
 
-use LBausch\PhpRadosgwAdmin\ApiResponse;
+use GuzzleHttp\RequestOptions;
+use LBausch\CephRadosgwAdmin\ApiResponse;
 
 class Usage extends AbstractResource
 {
@@ -13,21 +14,25 @@ class Usage extends AbstractResource
 
     /**
      * Get usage info.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-usage
      */
     public function info(array $data = []): ApiResponse
     {
         return $this->api->get($this->endpoint, [
-            'query' => $data,
+            RequestOptions::QUERY => $data,
         ]);
     }
 
     /**
      * Trim usage info.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#trim-usage
      */
     public function trim(array $data = []): ApiResponse
     {
         return $this->api->delete($this->endpoint, [
-            'query' => $data,
+            RequestOptions::QUERY => $data,
         ]);
     }
 }

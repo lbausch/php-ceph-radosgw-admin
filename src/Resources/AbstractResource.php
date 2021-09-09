@@ -1,10 +1,10 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Resources;
+namespace LBausch\CephRadosgwAdmin\Resources;
 
-use LBausch\PhpRadosgwAdmin\ApiRequest;
-use LBausch\PhpRadosgwAdmin\Client;
-use LBausch\PhpRadosgwAdmin\Contracts\ResourceContract;
+use LBausch\CephRadosgwAdmin\ApiRequest;
+use LBausch\CephRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\Contracts\ResourceContract;
 
 abstract class AbstractResource implements ResourceContract
 {

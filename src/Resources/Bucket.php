@@ -1,8 +1,11 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Resources;
+namespace LBausch\CephRadosgwAdmin\Resources;
 
-use LBausch\PhpRadosgwAdmin\ApiResponse;
+use GuzzleHttp\RequestOptions;
+use LBausch\CephRadosgwAdmin\ApiResponse;
+use LBausch\CephRadosgwAdmin\Signature\AbstractSignature;
+use LBausch\CephRadosgwAdmin\Signature\SignatureV2;
 
 class Bucket extends AbstractResource
 {
@@ -21,31 +24,37 @@ class Bucket extends AbstractResource
 
     /**
      * Get bucket info.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-bucket-info
      */
     public function info(array $data): ApiResponse
     {
         return $this->api->get($this->endpoint, [
-            'query' => $data,
+            RequestOptions::QUERY => $data,
         ]);
     }
 
     /**
      * Remove bucket.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-bucket
      */
-    public function delete(string $bucket, array $data = []): ApiResponse
+    public function remove(string $bucket, array $data = []): ApiResponse
     {
         return $this->api->delete($this->endpoint, [
-            'query' => array_merge(['bucket' => $bucket], $data),
+            RequestOptions::QUERY => array_merge(['bucket' => $bucket], $data),
         ]);
     }
 
     /**
      * Check bucket index.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#check-bucket-index
      */
     public function check(string $bucket, array $data = []): ApiResponse
     {
         return $this->api->get($this->endpoint, [
-            'query' => array_merge([
+            RequestOptions::QUERY => array_merge([
                 'index' => '',
                 'bucket' => $bucket,
             ], $data),
@@ -54,11 +63,13 @@ class Bucket extends AbstractResource
 
     /**
      * Link bucket.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#link-bucket
      */
     public function link(string $bucket, string $uid, array $data = []): ApiResponse
     {
         return $this->api->put($this->endpoint, [
-            'query' => array_merge([
+            RequestOptions::QUERY => array_merge([
                 'bucket' => $bucket,
                 'uid' => $uid,
             ], $data),
@@ -67,11 +78,13 @@ class Bucket extends AbstractResource
 
     /**
      * Unlink bucket.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#unlink-bucket
      */
     public function unlink(string $bucket, string $uid): ApiResponse
     {
         return $this->api->post($this->endpoint, [
-            'query' => [
+            RequestOptions::QUERY => [
                 'bucket' => $bucket,
                 'uid' => $uid,
             ],
@@ -80,13 +93,49 @@ class Bucket extends AbstractResource
 
     /**
      * Read the policy of an object or bucket.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-bucket-or-object-policy
      */
     public function policy(string $bucket, array $data = []): ApiResponse
     {
         return $this->api->get($this->endpoint, [
-            'query' => array_merge([
+            RequestOptions::QUERY => array_merge([
+                'policy' => '',
                 'bucket' => $bucket,
             ], $data),
+        ]);
+    }
+
+    /**
+     * Remove object.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-object
+     */
+    public function removeObject(string $bucket, string $object): ApiResponse
+    {
+        return $this->api->delete($this->endpoint, [
+            RequestOptions::QUERY => [
+                'bucket' => $bucket,
+                'object' => $object,
+            ],
+        ]);
+    }
+
+    /**
+     * Set bucket quota.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#set-quota-for-an-individual-bucket
+     */
+    public function setQuota(string $uid, string $bucket, array $quota): ApiResponse
+    {
+        return $this->api->put($this->endpoint, [
+            RequestOptions::QUERY => [
+                'quota' => '',
+                'uid' => $uid,
+                'bucket' => $bucket,
+            ],
+            RequestOptions::BODY => json_encode($quota),
+            AbstractSignature::SIGNATURE_OPTION => SignatureV2::class,
         ]);
     }
 }

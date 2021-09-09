@@ -1,9 +1,9 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Signature;
+namespace LBausch\CephRadosgwAdmin\Signature;
 
 use Aws\Credentials\CredentialsInterface;
-use LBausch\PhpRadosgwAdmin\Config;
+use LBausch\CephRadosgwAdmin\Config;
 use Psr\Http\Message\RequestInterface;
 
 class SignatureV2 extends AbstractSignature
@@ -11,8 +11,8 @@ class SignatureV2 extends AbstractSignature
     /**
      * Sign request.
      *
-     * https://docs.ceph.com/en/latest/radosgw/s3/authentication/
-     * https://docs.aws.amazon.com/AmazonS3/latest/userguide/RESTAuthentication.html
+     * @see https://docs.ceph.com/en/latest/radosgw/s3/authentication/
+     * @see https://docs.aws.amazon.com/AmazonS3/latest/userguide/RESTAuthentication.html
      */
     public function signRequest(RequestInterface $request, Config $config): RequestInterface
     {
@@ -64,8 +64,14 @@ class SignatureV2 extends AbstractSignature
      */
     protected function contentMd5(RequestInterface $request): string
     {
+        // Respect existing header
         if ($request->hasHeader('Content-MD5')) {
             return $request->getHeaderLine('Content-MD5');
+        }
+
+        // Do not calculate MD5 for GET and PUT requests
+        if (in_array($request->getMethod(), ['GET', 'PUT'])) {
+            return '';
         }
 
         $body = $request->getBody();
@@ -84,6 +90,7 @@ class SignatureV2 extends AbstractSignature
      */
     public function expires(RequestInterface $request): string
     {
+        // Respect existing header
         if ($request->hasHeader('Date')) {
             return $request->getHeaderLine('Date');
         }
@@ -94,24 +101,24 @@ class SignatureV2 extends AbstractSignature
     /**
      * Get canonicalized Amz headers.
      *
-     * @TODO
-     *
-     * https://docs.aws.amazon.com/AmazonS3/latest/userguide/RESTAuthentication.html#RESTAuthenticationConstructingCanonicalizedAmzHeaders
+     * @see https://docs.aws.amazon.com/AmazonS3/latest/userguide/RESTAuthentication.html#RESTAuthenticationConstructingCanonicalizedAmzHeaders
      */
     protected function canonicalizedAmzHeaders(RequestInterface $request): string
     {
+        // @TODO
+
         return '';
     }
 
     /**
      * Get canonicalized resource.
      *
-     * @TODO
-     *
-     * https://docs.aws.amazon.com/AmazonS3/latest/userguide/RESTAuthentication.html#ConstructingTheCanonicalizedResourceElement
+     * @see https://docs.aws.amazon.com/AmazonS3/latest/userguide/RESTAuthentication.html#ConstructingTheCanonicalizedResourceElement
      */
     protected function canonicalizedResource(RequestInterface $request): string
     {
+        // @TODO
+
         // CanonicalizedResource = [ "/" + Bucket ] +
         // <HTTP-Request-URI, from the protocol name up to the query string> +
         // [ subresource, if present. For example "?acl", "?location", or "?logging"];

@@ -1,6 +1,6 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin;
+namespace LBausch\CephRadosgwAdmin;
 
 use Aws\Credentials\Credentials;
 use Aws\S3\S3Client;
@@ -8,10 +8,10 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 use GuzzleHttp\HandlerStack;
 use InvalidArgumentException;
-use LBausch\PhpRadosgwAdmin\Middlewares\SignatureMiddleware;
-use LBausch\PhpRadosgwAdmin\Resources\Bucket;
-use LBausch\PhpRadosgwAdmin\Resources\Usage;
-use LBausch\PhpRadosgwAdmin\Resources\User;
+use LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware;
+use LBausch\CephRadosgwAdmin\Resources\Bucket;
+use LBausch\CephRadosgwAdmin\Resources\Usage;
+use LBausch\CephRadosgwAdmin\Resources\User;
 use ReflectionClass;
 
 /**
@@ -93,7 +93,7 @@ class Client
     /**
      * Get S3 client.
      */
-    public function getS3Client(string $key = null, string $secret = null): S3Client
+    public function getS3Client(string $key = null, string $secret = null, array $options = []): S3Client
     {
         $credentials = $this->config->get('credentials');
 
@@ -101,12 +101,14 @@ class Client
             $credentials = new Credentials($key, $secret);
         }
 
-        return new S3Client([
+        $options = array_merge([
             'endpoint' => $this->config->get('base_uri'),
             'credentials' => $credentials,
             'version' => $this->config->get('version'),
             'region' => $this->config->get('region'),
-        ]);
+        ], $options);
+
+        return new S3Client($options);
     }
 
     /**
@@ -124,6 +126,6 @@ class Client
             throw new InvalidArgumentException('Invalid resource '.$resource);
         }
 
-        return call_user_func([$resource, 'withClient'], $this);
+        return call_user_func([$resource, 'withClient'], $this); // @phpstan-ignore-line
     }
 }

@@ -10,6 +10,7 @@
          beStrictAboutTodoAnnotatedTests="true"
          failOnRisky="true"
          failOnWarning="true"
+         colors="true"
          verbose="true">
     <testsuites>
         <testsuite name="default">
@@ -24,6 +25,7 @@
         </include>
         <report>
             <clover outputFile="coverage.xml" />
+            <html outputDirectory=".phpunit.coverage" />
         </report>
     </coverage>
 </phpunit>

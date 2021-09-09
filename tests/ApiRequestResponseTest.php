@@ -3,30 +3,30 @@
 namespace Tests;
 
 use GuzzleHttp\Psr7\Response;
-use LBausch\PhpRadosgwAdmin\ApiException;
-use LBausch\PhpRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\ApiException;
+use LBausch\CephRadosgwAdmin\Client;
 
 final class RequestResponseTest extends TestCase
 {
     /**
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest::__construct
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest::get
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest::make
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest::request
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::__construct
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::failed
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::fromResponse
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::get
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::getResponse
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::has
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::shouldThrowException
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::succeeded
-     * @covers \LBausch\PhpRadosgwAdmin\Client
-     * @covers \LBausch\PhpRadosgwAdmin\Config
-     * @covers \LBausch\PhpRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\User
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV4
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest::__construct
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest::get
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest::make
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest::request
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::__construct
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::failed
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::fromResponse
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::get
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::getResponse
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::has
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::shouldThrowException
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::succeeded
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4
      */
     public function testRequestAndResponse(): void
     {
@@ -44,30 +44,30 @@ final class RequestResponseTest extends TestCase
         $this->assertTrue($response->has('foo'));
         $this->assertFalse($response->failed());
 
-        $this->assertEquals(['foo' => 'bar'], $response->get());
-        $this->assertEquals('bar', $response->get('foo'));
-        $this->assertEquals('baz', $response->get('foobar', 'baz'));
+        $this->assertSame(['foo' => 'bar'], $response->get());
+        $this->assertSame('bar', $response->get('foo'));
+        $this->assertSame('baz', $response->get('foobar', 'baz'));
     }
 
     /**
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest::__construct
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest::delete
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest::make
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest::request
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::__construct
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::get
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::failed
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::fromResponse
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::getResponse
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::has
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::shouldThrowException
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse::succeeded
-     * @covers \LBausch\PhpRadosgwAdmin\Client
-     * @covers \LBausch\PhpRadosgwAdmin\Config
-     * @covers \LBausch\PhpRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\User
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV4
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest::__construct
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest::delete
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest::make
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest::request
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::__construct
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::get
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::failed
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::fromResponse
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::getResponse
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::has
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::shouldThrowException
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::succeeded
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4
      */
     public function testExceptionIsThrown(): void
     {
@@ -85,6 +85,6 @@ final class RequestResponseTest extends TestCase
         $client = Client::make('http://gateway:8000', 'accesskey', 'secretkey', $config);
 
         // Trigger the exception
-        $client->user()->delete('foobar');
+        $client->user()->remove('foobar');
     }
 }

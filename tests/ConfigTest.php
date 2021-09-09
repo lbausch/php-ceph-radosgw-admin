@@ -2,16 +2,16 @@
 
 namespace Tests;
 
-use LBausch\PhpRadosgwAdmin\Config;
+use LBausch\CephRadosgwAdmin\Config;
 
 final class ConfigTest extends TestCase
 {
     /**
-     * @covers \LBausch\PhpRadosgwAdmin\Config::__construct
-     * @covers \LBausch\PhpRadosgwAdmin\Config::defaults
-     * @covers \LBausch\PhpRadosgwAdmin\Config::get
-     * @covers \LBausch\PhpRadosgwAdmin\Config::make
-     * @covers \LBausch\PhpRadosgwAdmin\Config::set
+     * @covers \LBausch\CephRadosgwAdmin\Config::__construct
+     * @covers \LBausch\CephRadosgwAdmin\Config::defaults
+     * @covers \LBausch\CephRadosgwAdmin\Config::get
+     * @covers \LBausch\CephRadosgwAdmin\Config::make
+     * @covers \LBausch\CephRadosgwAdmin\Config::set
      */
     public function testFactoryCreatesConfig(): void
     {
@@ -20,11 +20,11 @@ final class ConfigTest extends TestCase
         ]);
 
         $this->assertInstanceOf(Config::class, $config);
-        $this->assertEquals('s3', $config->get('service'));
-        $this->assertEquals('adm/', $config->get('adminPath'));
+        $this->assertSame('s3', $config->get('service'));
+        $this->assertSame('adm/', $config->get('adminPath'));
 
         $config->set('adminPath', 'administrator/');
 
-        $this->assertEquals('administrator/', $config->get('adminPath'));
+        $this->assertSame('administrator/', $config->get('adminPath'));
     }
 }

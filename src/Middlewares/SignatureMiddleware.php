@@ -1,10 +1,10 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Middlewares;
+namespace LBausch\CephRadosgwAdmin\Middlewares;
 
 use InvalidArgumentException;
-use LBausch\PhpRadosgwAdmin\Config;
-use LBausch\PhpRadosgwAdmin\Signature\AbstractSignature;
+use LBausch\CephRadosgwAdmin\Config;
+use LBausch\CephRadosgwAdmin\Signature\AbstractSignature;
 use Psr\Http\Message\RequestInterface;
 
 class SignatureMiddleware extends AbstractMiddleware

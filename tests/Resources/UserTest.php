@@ -4,20 +4,20 @@ namespace Tests\Resources;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use LBausch\PhpRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\Client;
 use Tests\TestCase;
 
 final class UserTest extends TestCase
 {
     /**
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse
-     * @covers \LBausch\PhpRadosgwAdmin\Client
-     * @covers \LBausch\PhpRadosgwAdmin\Config
-     * @covers \LBausch\PhpRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\User::list
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV4::signRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::list
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
     public function testUsersAreListed(): void
     {
@@ -31,32 +31,74 @@ final class UserTest extends TestCase
 
         $response = $client->user()->list();
 
-        $this->assertEquals(['foobar'], $response->get());
+        $this->assertSame(['foobar'], $response->get());
 
         $this->assertCount(1, $transactions);
 
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('gateway', $request->getUri()->getHost());
-        $this->assertEquals('/admin/metadata/user', $request->getUri()->getPath());
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/metadata/user', (string) $request->getUri());
     }
 
     /**
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse
-     * @covers \LBausch\PhpRadosgwAdmin\Client
-     * @covers \LBausch\PhpRadosgwAdmin\Config
-     * @covers \LBausch\PhpRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\User::create
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV2::canonicalizedAmzHeaders
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV2::canonicalizedResource
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV2::contentMd5
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV2::expires
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV2::signRequest
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV2::stringToSign
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::info
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testUserInfoIsReturned(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], <<<'EOT'
+{
+    "tenant": "foo",
+    "user_id": "bar",
+    "display_name": "foobar"
+}
+EOT),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->info('foo$bar');
+
+        $this->assertSame([
+            'tenant' => 'foo',
+            'user_id' => 'bar',
+            'display_name' => 'foobar',
+        ], $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?uid=foo%24bar', (string) $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::create
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::canonicalizedAmzHeaders
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::canonicalizedResource
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::contentMd5
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::expires
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::signRequest
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::stringToSign
      */
     public function testUserIsCreated(): void
     {
@@ -70,7 +112,7 @@ final class UserTest extends TestCase
 
         $response = $client->user()->create('foo', 'foo bar');
 
-        $this->assertEquals([
+        $this->assertSame([
             'tenant' => '',
             'user_id' => 'foo',
             'display_name' => 'foo bar',
@@ -81,20 +123,19 @@ final class UserTest extends TestCase
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('/admin/user', $request->getUri()->getPath());
-        $this->assertEquals('uid=foo&display-name=foo%20bar', $request->getUri()->getQuery());
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?uid=foo&display-name=foo%20bar', (string) $request->getUri());
     }
 
     /**
-     * @covers \LBausch\PhpRadosgwAdmin\ApiRequest
-     * @covers \LBausch\PhpRadosgwAdmin\ApiResponse
-     * @covers \LBausch\PhpRadosgwAdmin\Client
-     * @covers \LBausch\PhpRadosgwAdmin\Config
-     * @covers \LBausch\PhpRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\PhpRadosgwAdmin\Resources\User::modify
-     * @covers \LBausch\PhpRadosgwAdmin\Signature\SignatureV4::signRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::modify
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
     public function testUserIsModified(): void
     {
@@ -108,7 +149,7 @@ final class UserTest extends TestCase
 
         $response = $client->user()->modify('foo', ['display-name' => 'baz']);
 
-        $this->assertEquals([
+        $this->assertSame([
             'tenant' => '',
             'user_id' => 'foo',
             'display_name' => 'baz',
@@ -119,8 +160,397 @@ final class UserTest extends TestCase
         /** @var Request $request */
         $request = $transactions[0]['request'];
 
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/admin/user', $request->getUri()->getPath());
-        $this->assertEquals('uid=foo&display-name=baz', $request->getUri()->getQuery());
+        $this->assertSame('POST', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?uid=foo&display-name=baz', (string) $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::createKey
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testKeyIsCreated(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->createKey('foo');
+
+        $this->assertNull($response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?key=&uid=foo', (string) $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::removeKey
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testKeyIsRemoved(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->removeKey('access key');
+
+        $this->assertNull($response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertSame('DELETE', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?key=&access-key=access%20key', (string) $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::createSubuser
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testSubuserIsCreated(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], '[{"id":"foo:bar","permissions":"<none>"}]'),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->createSubuser('foo', 'bar');
+
+        $this->assertSame([
+            [
+                'id' => 'foo:bar',
+                'permissions' => '<none>',
+            ],
+        ], $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?uid=foo&subuser=bar', (string) $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::modifySubuser
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testSubuserIsModified(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], '[{"id":"foo:bar","permissions":"read"}]'),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->modifySubuser('foo', 'bar', ['access' => 'read']);
+
+        $this->assertSame([
+            [
+                'id' => 'foo:bar',
+                'permissions' => 'read',
+            ],
+        ], $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertSame('POST', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?uid=foo&subuser=bar&access=read', (string) $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::removeSubuser
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testSubuserIsRemoved(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->removeSubuser('foo', 'bar');
+
+        $this->assertNull($response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertSame('DELETE', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?uid=foo&subuser=bar', (string) $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::addCapability
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testCapabilityIsAdded(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], '[{"type":"usage","perm":"read"}]'),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->addCapability('foo', 'usage=read');
+
+        $this->assertSame([
+            [
+                'type' => 'usage',
+                'perm' => 'read',
+            ],
+        ], $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?caps=&uid=foo&user-caps=usage%3Dread', (string) $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::removeCapability
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testCapabilityIsRemoved(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], '[]'),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->removeCapability('foo', 'usage=read');
+
+        $this->assertSame([], $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertSame('DELETE', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?caps=&uid=foo&user-caps=usage%3Dread', (string) $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::getQuota
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testUserQuotaIsReturned(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], '{"enabled":false,"check_on_raw":false,"max_size":-1,"max_size_kb":0,"max_objects":-1}'),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->getQuota('foo');
+
+        $this->assertSame([
+            'enabled' => false,
+            'check_on_raw' => false,
+            'max_size' => -1,
+            'max_size_kb' => 0,
+            'max_objects' => -1,
+        ], $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=user', (string) $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::setQuota
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2
+     */
+    public function testUserQuotaIsSet(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->setQuota('foo', ['enabled' => true]);
+
+        $this->assertNull($response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=user', (string) $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::getBucketQuota
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
+     */
+    public function testBucketQuotaIsReturned(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], '{"enabled":false,"check_on_raw":false,"max_size":-1,"max_size_kb":0,"max_objects":-1}'),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->getBucketQuota('foo');
+
+        $this->assertSame([
+            'enabled' => false,
+            'check_on_raw' => false,
+            'max_size' => -1,
+            'max_size_kb' => 0,
+            'max_objects' => -1,
+        ], $response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=bucket', (string) $request->getUri());
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::setBucketQuota
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2
+     */
+    public function testBucketQuotaIsSet(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(),
+        ]);
+
+        $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
+
+        $response = $client->user()->setBucketQuota('foo', ['enabled' => true]);
+
+        $this->assertNull($response->get());
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=bucket', (string) $request->getUri());
     }
 }

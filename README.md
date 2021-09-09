@@ -8,11 +8,15 @@ A PHP REST client for the [Ceph](https://ceph.io/) [Object Gateway](https://docs
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Admin Client](#admin-client)
+  - [Handling Exceptions](#handling-exceptions)
+  - [S3 Client](#s3-client)
+  - [Custom Configuration](#custom-configuration)
 
 ## Features
 + Supports all endpoints of the [Admin Ops API](https://docs.ceph.com/en/latest/radosgw/adminops/), including currently undocumented `metadata/` endpoints
 + Requests are signed using AWS Signature V2 and V4
-+ Provides S3Client with no extra configuration by utilizing the [AWS SDK for PHP
++ Provides S3 client with no extra configuration by utilizing the [AWS SDK for PHP
 ](https://aws.amazon.com/sdk-for-php/)
 + Extensible and customizable
 
@@ -23,7 +27,7 @@ A PHP REST client for the [Ceph](https://ceph.io/) [Object Gateway](https://docs
 ## Installation
 Use [Composer](https://getcomposer.org/) to install the library:
 ```bash
-composer require lbausch/php-radosgw-admin
+composer require lbausch/ceph-radosgw-admin
 ```
 
 On the Ceph side an admin user with sufficient capabilities is required:
@@ -42,8 +46,7 @@ radosgw-admin user create \
 
 ### Admin Client
 ```php
-use LBausch\PhpRadosgwAdmin\Client;
-use LBausch\PhpRadosgwAdmin\Resources\Bucket;
+use LBausch\CephRadosgwAdmin\Client;
 
 require 'vendor/autoload.php';
 
@@ -62,18 +65,18 @@ Array
 ```
 
 ### Handling Exceptions
-Upon failed requests the exception `LBausch\PhpRadosgwAdmin\ApiException` is thrown.
+Upon failed requests the exception `LBausch\CephRadosgwAdmin\ApiException` is thrown.
 
 ```php
-use LBausch\PhpRadosgwAdmin\ApiException;
-use LBausch\PhpRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\ApiException;
+use LBausch\CephRadosgwAdmin\Client;
 
 require 'vendor/autoload.php';
 
 $client = Client::make('http://gateway:8080', 'access key', 'secret key');
 
 try {
-    $client->user()->delete('non existent user');
+    $client->user()->remove('non existent user');
 } catch (ApiException $exception) {
     // Exception handling
 }
@@ -82,7 +85,7 @@ try {
 
 ### S3 Client
 ```php
-use LBausch\PhpRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\Client;
 
 require 'vendor/autoload.php';
 
@@ -90,24 +93,42 @@ $client = Client::make('http://gateway:8080', 'access key', 'secret key');
 
 $s3client = $client->getS3Client();
 
-// Or use different credentials
+// Use different credentials
 // $s3client = $client->getS3Client('different access key', 'different secret key');
 
+// Pass arbitrary options to S3 client
+// $s3client = $client->getS3Client('different access key', 'different secret key', [
+//     'http' => [
+//         'verify' => false,
+//     ],
+// ]);
+
+// Create a bucket
+$s3client->createBucket([
+    'Bucket' => 'mybucket',
+]);
+
+// List all buckets
 $buckets = $s3client->listBuckets();
 
 foreach ($buckets['Buckets'] as $bucket) {
-    echo $bucket['Name'].PHP_EOL;
+    echo $bucket['Name'].PHP_EOL; // mybucket
 }
 
-// mybucket
+// Put an object in the bucket
+$s3client->putObject([
+    'Bucket' => 'mybucket',
+    'SourceFile' => 'foobar.png',
+    'Key' => 'foobar.png',
+]);
 ```
 
 ### Custom Configuration
-Many settings may be overriden if needed. See `LBausch\PhpRadosgwAdmin\Config::defaults()` for a list of configurable options.
+Many settings may be overriden if needed. See `LBausch\CephRadosgwAdmin\Config::defaults()` for a list of configurable options.
 
 ```php
-use LBausch\PhpRadosgwAdmin\Client;
-use LBausch\PhpRadosgwAdmin\Config;
+use LBausch\CephRadosgwAdmin\Client;
+use LBausch\CephRadosgwAdmin\Config;
 
 require 'vendor/autoload.php';
 

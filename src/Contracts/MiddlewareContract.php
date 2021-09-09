@@ -1,8 +1,8 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Contracts;
+namespace LBausch\CephRadosgwAdmin\Contracts;
 
-use LBausch\PhpRadosgwAdmin\Config;
+use LBausch\CephRadosgwAdmin\Config;
 
 interface MiddlewareContract
 {

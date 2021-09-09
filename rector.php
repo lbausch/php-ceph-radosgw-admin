@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use Rector\CodeQuality\Rector\Return_\SimplifyUselessVariableRector;
-use Rector\Core\Configuration\Option;
 use Rector\Php74\Rector\Property\TypedPropertyRector;
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -12,12 +10,28 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // get parameters
     $parameters = $containerConfigurator->parameters();
 
-    $parameters->set(Option::SKIP, [
-        // SimplifyUselessVariableRector::class,
-    ]);
+    $setLists = [
+        SetList::CODE_QUALITY,
+        SetList::CODING_STYLE_ADVANCED,
+        SetList::CODING_STYLE,
+        SetList::DEAD_CODE,
+        SetList::EARLY_RETURN,
+        SetList::NAMING,
+        SetList::ORDER,
+        SetList::PHP_74,
+        SetList::PHP_80,
+        SetList::PHP_81,
+        SetList::PRIVATIZATION,
+        SetList::PSR_4,
+        SetList::TYPE_DECLARATION_STRICT,
+        SetList::TYPE_DECLARATION,
+        SetList::UNWRAP_COMPAT,
+    ];
 
     // Define what rule sets will be applied
-    $containerConfigurator->import(SetList::DEAD_CODE);
+    foreach ($setLists as $setList) {
+        $containerConfigurator->import($setList);
+    }
 
     // get services (needed for register a single rule)
     // $services = $containerConfigurator->services();

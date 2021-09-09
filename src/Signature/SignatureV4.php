@@ -1,11 +1,11 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Signature;
+namespace LBausch\CephRadosgwAdmin\Signature;
 
 use Aws\Credentials\CredentialsInterface;
 use Aws\Signature\SignatureInterface;
 use Aws\Signature\SignatureProvider;
-use LBausch\PhpRadosgwAdmin\Config;
+use LBausch\CephRadosgwAdmin\Config;
 use Psr\Http\Message\RequestInterface;
 
 class SignatureV4 extends AbstractSignature

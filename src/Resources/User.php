@@ -1,10 +1,11 @@
 <?php
 
-namespace LBausch\PhpRadosgwAdmin\Resources;
+namespace LBausch\CephRadosgwAdmin\Resources;
 
-use LBausch\PhpRadosgwAdmin\ApiResponse;
-use LBausch\PhpRadosgwAdmin\Signature\AbstractSignature;
-use LBausch\PhpRadosgwAdmin\Signature\SignatureV2;
+use GuzzleHttp\RequestOptions;
+use LBausch\CephRadosgwAdmin\ApiResponse;
+use LBausch\CephRadosgwAdmin\Signature\AbstractSignature;
+use LBausch\CephRadosgwAdmin\Signature\SignatureV2;
 
 class User extends AbstractResource
 {
@@ -23,11 +24,13 @@ class User extends AbstractResource
 
     /**
      * Get user info.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-user-info
      */
     public function info(string $uid): ApiResponse
     {
         return $this->api->get($this->endpoint, [
-            'query' => [
+            RequestOptions::QUERY => [
                 'uid' => $uid,
             ],
         ]);
@@ -35,11 +38,13 @@ class User extends AbstractResource
 
     /**
      * Create user.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#create-user
      */
-    public function create(string $uid, $displayName, array $data = []): ApiResponse
+    public function create(string $uid, string $displayName, array $data = []): ApiResponse
     {
         return $this->api->put($this->endpoint, [
-            'query' => array_merge([
+            RequestOptions::QUERY => array_merge([
                 'uid' => $uid,
                 'display-name' => $displayName,
             ], $data),
@@ -49,26 +54,205 @@ class User extends AbstractResource
 
     /**
      * Modify user.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#modify-user
      */
     public function modify(string $uid, array $data = []): ApiResponse
     {
         return $this->api->post($this->endpoint, [
-            'query' => array_merge([
+            RequestOptions::QUERY => array_merge([
                 'uid' => $uid,
             ], $data),
         ]);
     }
 
     /**
-     * Delete user.
+     * Remove user.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-user
      */
-    public function delete(string $uid, bool $purgeData = false): ApiResponse
+    public function remove(string $uid, bool $purgeData = false): ApiResponse
     {
         return $this->api->delete($this->endpoint, [
-            'query' => [
+            RequestOptions::QUERY => [
                 'uid' => $uid,
                 'purge-data' => $purgeData,
             ],
+        ]);
+    }
+
+    /**
+     * Create key.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#create-key
+     */
+    public function createKey(string $uid, array $data = []): ApiResponse
+    {
+        return $this->api->put($this->endpoint, [
+            RequestOptions::QUERY => array_merge([
+                'key' => '',
+                'uid' => $uid,
+            ], $data),
+        ]);
+    }
+
+    /**
+     * Remove key.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-key
+     */
+    public function removeKey(string $accessKey, array $data = []): ApiResponse
+    {
+        return $this->api->delete($this->endpoint, [
+            RequestOptions::QUERY => array_merge([
+                'key' => '',
+                'access-key' => $accessKey,
+            ], $data),
+        ]);
+    }
+
+    /**
+     * Create subuser.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#create-subuser
+     */
+    public function createSubuser(string $uid, string $subuser, array $data = []): ApiResponse
+    {
+        return $this->api->put($this->endpoint, [
+            RequestOptions::QUERY => array_merge([
+                'uid' => $uid,
+                'subuser' => $subuser,
+            ], $data),
+        ]);
+    }
+
+    /**
+     * Modify subuser.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#modify-subuser
+     */
+    public function modifySubuser(string $uid, string $subuser, array $data = []): ApiResponse
+    {
+        return $this->api->post($this->endpoint, [
+            RequestOptions::QUERY => array_merge([
+                'uid' => $uid,
+                'subuser' => $subuser,
+            ], $data),
+        ]);
+    }
+
+    /**
+     * Remove subuser.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-subuser
+     */
+    public function removeSubuser(string $uid, string $subuser, array $data = []): ApiResponse
+    {
+        return $this->api->delete($this->endpoint, [
+            RequestOptions::QUERY => array_merge([
+                'uid' => $uid,
+                'subuser' => $subuser,
+            ], $data),
+        ]);
+    }
+
+    /**
+     * Add capability.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#add-a-user-capability
+     */
+    public function addCapability(string $uid, string $userCaps): ApiResponse
+    {
+        return $this->api->put($this->endpoint, [
+            RequestOptions::QUERY => [
+                'caps' => '',
+                'uid' => $uid,
+                'user-caps' => $userCaps,
+            ],
+        ]);
+    }
+
+    /**
+     * Remove capability.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-a-user-capability
+     */
+    public function removeCapability(string $uid, string $userCaps): ApiResponse
+    {
+        return $this->api->delete($this->endpoint, [
+            RequestOptions::QUERY => [
+                'caps' => '',
+                'uid' => $uid,
+                'user-caps' => $userCaps,
+            ],
+        ]);
+    }
+
+    /**
+     * Get user quota.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-user-quota
+     */
+    public function getQuota(string $uid): ApiResponse
+    {
+        return $this->api->get($this->endpoint, [
+            RequestOptions::QUERY => [
+                'quota' => '',
+                'uid' => $uid,
+                'quota-type' => 'user',
+            ],
+        ]);
+    }
+
+    /**
+     * Set user quota.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#set-user-quota
+     */
+    public function setQuota(string $uid, array $quota): ApiResponse
+    {
+        return $this->api->put($this->endpoint, [
+            RequestOptions::QUERY => [
+                'quota' => '',
+                'uid' => $uid,
+                'quota-type' => 'user',
+            ],
+            RequestOptions::BODY => json_encode($quota),
+            AbstractSignature::SIGNATURE_OPTION => SignatureV2::class,
+        ]);
+    }
+
+    /**
+     * Get bucket quota.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-bucket-quota
+     */
+    public function getBucketQuota(string $uid): ApiResponse
+    {
+        return $this->api->get($this->endpoint, [
+            RequestOptions::QUERY => [
+                'quota' => '',
+                'uid' => $uid,
+                'quota-type' => 'bucket',
+            ],
+        ]);
+    }
+
+    /**
+     * Set bucket quota.
+     *
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#set-bucket-quota
+     */
+    public function setBucketQuota(string $uid, array $quota): ApiResponse
+    {
+        return $this->api->put($this->endpoint, [
+            RequestOptions::QUERY => [
+                'quota' => '',
+                'uid' => $uid,
+                'quota-type' => 'bucket',
+            ],
+            RequestOptions::BODY => json_encode($quota),
+            AbstractSignature::SIGNATURE_OPTION => SignatureV2::class,
         ]);
     }
 }

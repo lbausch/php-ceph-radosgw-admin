@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.7.2@83a0325c0a95c0ab531d6b90c877068b464377b5">
+<files psalm-version="4.10.0@916b098b008f6de4543892b1e0651c1c3b92cbfa">
   <file src="src/ApiResponse.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$name</code>
-    </PossiblyNullArgument>
     <PossiblyNullArrayAccess occurrences="1">
       <code>$this-&gt;decoded[$name]</code>
     </PossiblyNullArrayAccess>
+  </file>
+  <file src="src/Middlewares/SignatureMiddleware.php">
+    <MissingClosureReturnType occurrences="1">
+      <code>function (RequestInterface $request, array $options) use ($handler, $config) {</code>
+    </MissingClosureReturnType>
+  </file>
+  <file src="src/Resources/AbstractResource.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$endpoint</code>
+    </PropertyNotSetInConstructor>
   </file>
 </files>
