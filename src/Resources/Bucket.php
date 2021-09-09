@@ -37,7 +37,7 @@ class Bucket extends AbstractResource
     /**
      * Remove bucket.
      *
-     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#unlink-bucket
+     * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-bucket
      */
     public function remove(string $bucket, array $data = []): ApiResponse
     {
