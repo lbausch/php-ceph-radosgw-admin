@@ -85,6 +85,6 @@ final class RequestResponseTest extends TestCase
         $client = Client::make('http://gateway:8000', 'accesskey', 'secretkey', $config);
 
         // Trigger the exception
-        $client->user()->delete('foobar');
+        $client->user()->remove('foobar');
     }
 }

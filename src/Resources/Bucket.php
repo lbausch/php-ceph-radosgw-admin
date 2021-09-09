@@ -39,7 +39,7 @@ class Bucket extends AbstractResource
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#unlink-bucket
      */
-    public function delete(string $bucket, array $data = []): ApiResponse
+    public function remove(string $bucket, array $data = []): ApiResponse
     {
         return $this->api->delete($this->endpoint, [
             RequestOptions::QUERY => array_merge(['bucket' => $bucket], $data),

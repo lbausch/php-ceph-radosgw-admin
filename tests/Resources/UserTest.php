@@ -204,10 +204,10 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Config
      * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
      * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::deleteKey
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::removeKey
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testKeyIsDeleted(): void
+    public function testKeyIsRemoved(): void
     {
         $transactions = [];
 
@@ -217,7 +217,7 @@ EOT),
 
         $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
 
-        $response = $client->user()->deleteKey('access key');
+        $response = $client->user()->removeKey('access key');
 
         $this->assertNull($response->get());
 
@@ -313,10 +313,10 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Config
      * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
      * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::deleteSubuser
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::removeSubuser
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testSubuserIsDeleted(): void
+    public function testSubuserIsRemoved(): void
     {
         $transactions = [];
 
@@ -326,7 +326,7 @@ EOT),
 
         $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
 
-        $response = $client->user()->deleteSubuser('foo', 'bar');
+        $response = $client->user()->removeSubuser('foo', 'bar');
 
         $this->assertNull($response->get());
 
@@ -384,10 +384,10 @@ EOT),
      * @covers \LBausch\CephRadosgwAdmin\Config
      * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
      * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::deleteCapability
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User::removeCapability
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testCapabilityIsDeleted(): void
+    public function testCapabilityIsRemoved(): void
     {
         $transactions = [];
 
@@ -397,7 +397,7 @@ EOT),
 
         $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
 
-        $response = $client->user()->deleteCapability('foo', 'usage=read');
+        $response = $client->user()->removeCapability('foo', 'usage=read');
 
         $this->assertSame([], $response->get());
 

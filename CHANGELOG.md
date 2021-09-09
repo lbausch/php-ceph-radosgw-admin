@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support setting quota on indivual bucket
 - Added more tests
 ### Changed
+- Use `remove` instead of `delete` for some method names
 - Improved README
 ### Fixed
 - Use correct API endpoint when reading the policy of an object or bucket

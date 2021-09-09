@@ -76,7 +76,7 @@ require 'vendor/autoload.php';
 $client = Client::make('http://gateway:8080', 'access key', 'secret key');
 
 try {
-    $client->user()->delete('non existent user');
+    $client->user()->remove('non existent user');
 } catch (ApiException $exception) {
     // Exception handling
 }

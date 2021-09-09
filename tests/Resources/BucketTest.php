@@ -49,10 +49,10 @@ final class BucketTest extends TestCase
      * @covers \LBausch\CephRadosgwAdmin\Config
      * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
      * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::delete
+     * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::remove
      * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
      */
-    public function testBucketIsDeleted(): void
+    public function testBucketIsRemoved(): void
     {
         $transactions = [];
 
@@ -62,7 +62,7 @@ final class BucketTest extends TestCase
 
         $client = Client::make('http://gateway', 'acesskey', 'secretkey', $config);
 
-        $response = $client->bucket()->delete('mybucket');
+        $response = $client->bucket()->remove('mybucket');
 
         $this->assertSame(['mybucket'], $response->get());
 

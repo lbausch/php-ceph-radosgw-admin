@@ -67,11 +67,11 @@ class User extends AbstractResource
     }
 
     /**
-     * Delete user.
+     * Remove user.
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-user
      */
-    public function delete(string $uid, bool $purgeData = false): ApiResponse
+    public function remove(string $uid, bool $purgeData = false): ApiResponse
     {
         return $this->api->delete($this->endpoint, [
             RequestOptions::QUERY => [
@@ -97,11 +97,11 @@ class User extends AbstractResource
     }
 
     /**
-     * Delete key.
+     * Remove key.
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-key
      */
-    public function deleteKey(string $accessKey, array $data = []): ApiResponse
+    public function removeKey(string $accessKey, array $data = []): ApiResponse
     {
         return $this->api->delete($this->endpoint, [
             RequestOptions::QUERY => array_merge([
@@ -142,11 +142,11 @@ class User extends AbstractResource
     }
 
     /**
-     * Delete subuser.
+     * Remove subuser.
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-subuser
      */
-    public function deleteSubuser(string $uid, string $subuser, array $data = []): ApiResponse
+    public function removeSubuser(string $uid, string $subuser, array $data = []): ApiResponse
     {
         return $this->api->delete($this->endpoint, [
             RequestOptions::QUERY => array_merge([
@@ -173,11 +173,11 @@ class User extends AbstractResource
     }
 
     /**
-     * Delete capability.
+     * Remove capability.
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-a-user-capability
      */
-    public function deleteCapability(string $uid, string $userCaps): ApiResponse
+    public function removeCapability(string $uid, string $userCaps): ApiResponse
     {
         return $this->api->delete($this->endpoint, [
             RequestOptions::QUERY => [
