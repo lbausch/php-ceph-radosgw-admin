@@ -1,4 +1,6 @@
-# PHP Ceph Radosgw Admin  <!-- omit in toc -->
+![PHP Ceph Radosgw Admin](.github/logo.png)
+
+# PHP Ceph Radosgw Admin <!-- omit in toc -->
 
 ![sca](https://github.com/lbausch/php-ceph-radosgw-admin/actions/workflows/sca.yml/badge.svg) ![tests](https://github.com/lbausch/php-ceph-radosgw-admin/actions/workflows/tests.yml/badge.svg) ![codecov](https://codecov.io/gh/lbausch/php-ceph-radosgw-admin/branch/master/graph/badge.svg)
 
