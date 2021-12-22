@@ -12,7 +12,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $setLists = [
         SetList::CODE_QUALITY,
-        SetList::CODING_STYLE_ADVANCED,
         SetList::CODING_STYLE,
         SetList::DEAD_CODE,
         SetList::EARLY_RETURN,
