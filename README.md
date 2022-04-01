@@ -23,8 +23,8 @@ A PHP REST client for the [Ceph](https://ceph.io/) [Object Gateway](https://docs
 + Extensible and customizable
 
 ## Requirements
-+ PHP >= 7.4
-+ Ceph Nautilus or newer
++ PHP ^7.4 or PHP ^8.0
++ Ceph Nautilus (14) or newer
 
 ## Installation
 Use [Composer](https://getcomposer.org/) to install the library:
