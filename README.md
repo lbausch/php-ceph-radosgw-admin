@@ -1,4 +1,6 @@
-# PHP Ceph Radosgw Admin  <!-- omit in toc -->
+![PHP Ceph Radosgw Admin](.github/logo.png)
+
+# PHP Ceph Radosgw Admin <!-- omit in toc -->
 
 ![sca](https://github.com/lbausch/php-ceph-radosgw-admin/actions/workflows/sca.yml/badge.svg) ![tests](https://github.com/lbausch/php-ceph-radosgw-admin/actions/workflows/tests.yml/badge.svg) ![codecov](https://codecov.io/gh/lbausch/php-ceph-radosgw-admin/branch/master/graph/badge.svg)
 
@@ -21,8 +23,8 @@ A PHP REST client for the [Ceph](https://ceph.io/) [Object Gateway](https://docs
 + Extensible and customizable
 
 ## Requirements
-+ PHP >= 7.4
-+ Ceph Nautilus or newer
++ PHP ^7.4 or PHP ^8.0
++ Ceph Nautilus (14) or newer
 
 ## Installation
 Use [Composer](https://getcomposer.org/) to install the library:

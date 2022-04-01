@@ -12,12 +12,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $setLists = [
         SetList::CODE_QUALITY,
-        SetList::CODING_STYLE_ADVANCED,
         SetList::CODING_STYLE,
         SetList::DEAD_CODE,
         SetList::EARLY_RETURN,
         SetList::NAMING,
-        SetList::ORDER,
         SetList::PHP_74,
         SetList::PHP_80,
         SetList::PHP_81,
