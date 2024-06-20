@@ -31,6 +31,7 @@ class Bucket extends AbstractResource
     {
         return $this->api->get($this->endpoint, [
             RequestOptions::QUERY => $data,
+            RequestOptions::HEADERS => $this->config->get('httpClientHeaders'),
         ]);
     }
 
@@ -43,6 +44,7 @@ class Bucket extends AbstractResource
     {
         return $this->api->delete($this->endpoint, [
             RequestOptions::QUERY => array_merge(['bucket' => $bucket], $data),
+            RequestOptions::HEADERS => $this->config->get('httpClientHeaders'),
         ]);
     }
 
@@ -58,6 +60,7 @@ class Bucket extends AbstractResource
                 'index' => '',
                 'bucket' => $bucket,
             ], $data),
+            RequestOptions::HEADERS => $this->config->get('httpClientHeaders'),
         ]);
     }
 
@@ -73,6 +76,7 @@ class Bucket extends AbstractResource
                 'bucket' => $bucket,
                 'uid' => $uid,
             ], $data),
+            RequestOptions::HEADERS => $this->config->get('httpClientHeaders'),
         ]);
     }
 
@@ -88,6 +92,7 @@ class Bucket extends AbstractResource
                 'bucket' => $bucket,
                 'uid' => $uid,
             ],
+            RequestOptions::HEADERS => $this->config->get('httpClientHeaders'),
         ]);
     }
 
@@ -103,6 +108,7 @@ class Bucket extends AbstractResource
                 'policy' => '',
                 'bucket' => $bucket,
             ], $data),
+            RequestOptions::HEADERS => $this->config->get('httpClientHeaders'),
         ]);
     }
 
@@ -118,6 +124,7 @@ class Bucket extends AbstractResource
                 'bucket' => $bucket,
                 'object' => $object,
             ],
+            RequestOptions::HEADERS => $this->config->get('httpClientHeaders'),
         ]);
     }
 
@@ -136,6 +143,7 @@ class Bucket extends AbstractResource
             ],
             RequestOptions::BODY => json_encode($quota),
             AbstractSignature::SIGNATURE_OPTION => SignatureV2::class,
+            RequestOptions::HEADERS => $this->config->get('httpClientHeaders'),
         ]);
     }
 }

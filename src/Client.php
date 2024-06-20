@@ -90,6 +90,11 @@ class Client
         return $this->httpClient;
     }
 
+    public function getConfig(): Config
+    {
+        return $this->config;
+    }
+
     /**
      * Get S3 client.
      */
