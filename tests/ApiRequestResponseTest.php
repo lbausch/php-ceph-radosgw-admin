@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use LBausch\CephRadosgwAdmin\ApiException;
 use LBausch\CephRadosgwAdmin\Client;
@@ -47,6 +48,55 @@ final class RequestResponseTest extends TestCase
         $this->assertSame(['foo' => 'bar'], $response->get());
         $this->assertSame('bar', $response->get('foo'));
         $this->assertSame('baz', $response->get('foobar', 'baz'));
+    }
+
+    /**
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest::__construct
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest::get
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest::make
+     * @covers \LBausch\CephRadosgwAdmin\ApiRequest::request
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::__construct
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::failed
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::fromResponse
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::get
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::getResponse
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::has
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::shouldThrowException
+     * @covers \LBausch\CephRadosgwAdmin\ApiResponse::succeeded
+     * @covers \LBausch\CephRadosgwAdmin\Client
+     * @covers \LBausch\CephRadosgwAdmin\Config
+     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
+     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
+     * @covers \LBausch\CephRadosgwAdmin\Resources\User
+     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4
+     */
+    public function testRequestAndResponseWithHostHeaders(): void
+    {
+        $transactions = [];
+
+        $config = $this->getConfigWithMockedHandlers($transactions, [
+            new Response(200, [], <<<'EOT'
+{
+    "tenant": "baz",
+    "user_id": "foo",
+    "display_name": "bazfoo"
+}
+EOT),
+        ]);
+        $config->set('httpClientHeaders', ['Host' => 'Bar']);
+
+        $client = Client::make('http://gateway:8000', 'accesskey', 'secretkey', $config);
+
+        $response = $client->user()->info('baz$foo');
+
+        $this->assertCount(1, $transactions);
+
+        /** @var Request $request */
+        $request = $transactions[0]['request'];
+
+        $headers = $request->getHeaders();
+
+        $this->assertSame('Bar', $headers['Host'][0]);
     }
 
     /**
