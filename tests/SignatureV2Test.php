@@ -83,7 +83,7 @@ final class SignatureV2Test extends TestCase
             'Content-Type' => 'application/json',
         ], '{"foo":"bar"}');
 
-        $signature = new class() extends SignatureV2 {
+        $signature = new class extends SignatureV2 {
             public function contentMd5(RequestInterface $request): string
             {
                 return parent::contentMd5($request);
@@ -115,7 +115,7 @@ final class SignatureV2Test extends TestCase
             'Date' => 'foo',
         ]);
 
-        $signature = new class() extends SignatureV2 {
+        $signature = new class extends SignatureV2 {
             public function expires(RequestInterface $request): string
             {
                 return parent::expires($request);

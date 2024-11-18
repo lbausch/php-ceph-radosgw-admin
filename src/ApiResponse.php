@@ -83,7 +83,7 @@ class ApiResponse
      *
      * @return mixed
      */
-    public function get(string $name = null, $default = null)
+    public function get(?string $name = null, $default = null)
     {
         if (null === $name && null === $default) {
             return $this->decoded;
