@@ -25,6 +25,7 @@ class ApiResponse
         $body = $this->getResponse()->getBody();
 
         $body->rewind();
+
         $content = $body->getContents();
         $body->rewind();
 

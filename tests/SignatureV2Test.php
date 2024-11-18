@@ -38,10 +38,10 @@ final class SignatureV2Test extends TestCase
         $headers = $signedRequest->getHeaders();
 
         $this->assertArrayHasKey('Date', $headers);
-        $this->assertSame(1, count($headers['Date']));
+        $this->assertCount(1, $headers['Date']);
 
         $this->assertArrayHasKey('Authorization', $headers);
-        $this->assertSame(1, count($headers['Authorization']));
+        $this->assertCount(1, $headers['Authorization']);
 
         $this->assertMatchesRegularExpression('/^AWS access key:([a-zA-Z0-9+\/]){27}=$/', $headers['Authorization'][0]);
     }

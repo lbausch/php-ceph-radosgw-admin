@@ -41,7 +41,7 @@ class Client
     protected function __construct(string $base_uri, string $key, string $secret, ?Config $config = null)
     {
         // Setup configuration
-        $this->config = (null === $config) ? Config::make() : $config;
+        $this->config = ($config instanceof Config) ? $config : Config::make();
 
         // Set base_uri
         $this->config->set('base_uri', $base_uri);
