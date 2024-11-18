@@ -29,6 +29,8 @@ class SignatureMiddleware extends AbstractMiddleware
 
     /**
      * Sign request.
+     *
+     * @param array<mixed, mixed> $options
      */
     public static function signRequest(RequestInterface $request, array $options, Config $config): RequestInterface
     {

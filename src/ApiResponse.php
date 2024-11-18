@@ -13,6 +13,8 @@ class ApiResponse
 
     /**
      * Decoded response.
+     *
+     * @var array<mixed, mixed>
      */
     protected ?array $decoded = null;
 

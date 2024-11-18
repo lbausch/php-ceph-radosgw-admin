@@ -92,6 +92,8 @@ class Client
 
     /**
      * Get S3 client.
+     *
+     * @param array<mixed, mixed> $options
      */
     public function getS3Client(?string $key = null, ?string $secret = null, array $options = []): S3Client
     {
@@ -113,6 +115,8 @@ class Client
 
     /**
      * Call resources via magic method.
+     *
+     * @param array<mixed, mixed> $arguments
      *
      * @return mixed
      */

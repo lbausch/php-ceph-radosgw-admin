@@ -126,7 +126,7 @@ final class SignatureV2Test extends TestCase
         $date = DateTime::createFromFormat(DateTime::RFC2822, $expires);
 
         $this->assertNotFalse($date);
-        $this->assertSame($date->format(DateTime::RFC2822), $expires); // @phpstan-ignore-line
+        $this->assertSame($date->format(DateTime::RFC2822), $expires);
         $this->assertSame('foo', $signature->expires($requestWithExistingHeader));
     }
 }

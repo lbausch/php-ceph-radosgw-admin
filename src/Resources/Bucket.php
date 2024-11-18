@@ -25,6 +25,8 @@ class Bucket extends AbstractResource
     /**
      * Get bucket info.
      *
+     * @param array<mixed, mixed> $data
+     *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-bucket-info
      */
     public function info(array $data): ApiResponse
@@ -37,6 +39,8 @@ class Bucket extends AbstractResource
     /**
      * Remove bucket.
      *
+     * @param array<mixed, mixed> $data
+     *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-bucket
      */
     public function remove(string $bucket, array $data = []): ApiResponse
@@ -48,6 +52,8 @@ class Bucket extends AbstractResource
 
     /**
      * Check bucket index.
+     *
+     * @param array<mixed, mixed> $data
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#check-bucket-index
      */
@@ -63,6 +69,8 @@ class Bucket extends AbstractResource
 
     /**
      * Link bucket.
+     *
+     * @param array<mixed, mixed> $data
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#link-bucket
      */
@@ -94,6 +102,8 @@ class Bucket extends AbstractResource
     /**
      * Read the policy of an object or bucket.
      *
+     * @param array<mixed, mixed> $data
+     *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-bucket-or-object-policy
      */
     public function policy(string $bucket, array $data = []): ApiResponse
@@ -123,6 +133,8 @@ class Bucket extends AbstractResource
 
     /**
      * Set bucket quota.
+     *
+     * @param array<mixed, mixed> $quota
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#set-quota-for-an-individual-bucket
      */

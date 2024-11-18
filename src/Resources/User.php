@@ -39,6 +39,8 @@ class User extends AbstractResource
     /**
      * Create user.
      *
+     * @param array<mixed, mixed> $data
+     *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#create-user
      */
     public function create(string $uid, string $displayName, array $data = []): ApiResponse
@@ -54,6 +56,8 @@ class User extends AbstractResource
 
     /**
      * Modify user.
+     *
+     * @param array<mixed, mixed> $data
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#modify-user
      */
@@ -84,6 +88,8 @@ class User extends AbstractResource
     /**
      * Create key.
      *
+     * @param array<mixed, mixed> $data
+     *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#create-key
      */
     public function createKey(string $uid, array $data = []): ApiResponse
@@ -98,6 +104,8 @@ class User extends AbstractResource
 
     /**
      * Remove key.
+     *
+     * @param array<mixed, mixed> $data
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-key
      */
@@ -114,6 +122,8 @@ class User extends AbstractResource
     /**
      * Create subuser.
      *
+     * @param array<mixed, mixed> $data
+     *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#create-subuser
      */
     public function createSubuser(string $uid, string $subuser, array $data = []): ApiResponse
@@ -129,6 +139,8 @@ class User extends AbstractResource
     /**
      * Modify subuser.
      *
+     * @param array<mixed, mixed> $data
+     *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#modify-subuser
      */
     public function modifySubuser(string $uid, string $subuser, array $data = []): ApiResponse
@@ -143,6 +155,8 @@ class User extends AbstractResource
 
     /**
      * Remove subuser.
+     *
+     * @param array<mixed, mixed> $data
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#remove-subuser
      */
@@ -207,6 +221,8 @@ class User extends AbstractResource
     /**
      * Set user quota.
      *
+     * @param array<mixed, mixed> $quota
+     *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#set-user-quota
      */
     public function setQuota(string $uid, array $quota): ApiResponse
@@ -240,6 +256,8 @@ class User extends AbstractResource
 
     /**
      * Set bucket quota.
+     *
+     * @param array<mixed, mixed> $quota
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#set-bucket-quota
      */

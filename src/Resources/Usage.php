@@ -15,6 +15,8 @@ class Usage extends AbstractResource
     /**
      * Get usage info.
      *
+     * @param array<mixed, mixed> $data
+     *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#get-usage
      */
     public function info(array $data = []): ApiResponse
@@ -26,6 +28,8 @@ class Usage extends AbstractResource
 
     /**
      * Trim usage info.
+     *
+     * @param array<mixed, mixed> $data
      *
      * @see https://docs.ceph.com/en/latest/radosgw/adminops/#trim-usage
      */

@@ -12,6 +12,9 @@ abstract class TestCase extends BaseTestCase
 {
     /**
      * Get a config instance with mocked handlers.
+     *
+     * @param array<int, mixed> $container
+     * @param array<int, mixed> $responses
      */
     protected function getConfigWithMockedHandlers(array &$container, array $responses = []): Config
     {
@@ -24,11 +27,13 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get a handler stack with history middleware.
      *
+     * @param array<int, mixed> $container
+     *
      * @see https://docs.guzzlephp.org/en/stable/testing.html#history-middleware
      */
     protected function getHandlerStack(array &$container): HandlerStack
     {
-        $history = Middleware::history($container);
+        $history = Middleware::history($container); // @phpstan-ignore-line
 
         $handlerStack = HandlerStack::create();
 
@@ -39,6 +44,8 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * Get a mock handler.
+     *
+     * @param array<int, mixed> $responses
      *
      * @see https://docs.guzzlephp.org/en/stable/testing.html#mock-handler
      */
