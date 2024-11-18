@@ -7,17 +7,17 @@ use InvalidArgumentException;
 use LBausch\CephRadosgwAdmin\Client;
 use LBausch\CephRadosgwAdmin\Resources\AbstractResource;
 use LBausch\CephRadosgwAdmin\Signature\AbstractSignature;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
+#[CoversClass(\LBausch\CephRadosgwAdmin\ApiRequest::class)]
+#[CoversClass(Client::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Config::class)]
+#[CoversClass(AbstractResource::class)]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::class, 'handle')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::class, 'signRequest')]
 final class SignatureTest extends TestCase
 {
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::handle
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::signRequest
-     */
     public function testInvalidSignatureClassThrowsException(): void
     {
         $transactions = [];

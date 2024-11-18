@@ -3,4 +3,5 @@ composer.lock
 phpunit.xml
 coverage.xml
 /.phpunit.coverage/
-/.phpunit.cache/
+.phpunit.result.cache
+.phpunit.cache/

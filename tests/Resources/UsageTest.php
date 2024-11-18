@@ -5,20 +5,22 @@ namespace Tests\Resources;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use LBausch\CephRadosgwAdmin\Client;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use Tests\TestCase;
 
+#[CoversClass(\LBausch\CephRadosgwAdmin\ApiRequest::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\ApiResponse::class)]
+#[CoversClass(Client::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Config::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Signature\SignatureV2::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Signature\SignatureV4::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Resources\AbstractResource::class)]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\Usage::class, 'info')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\Usage::class, 'trim')]
 final class UsageTest extends TestCase
 {
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\Usage::info
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testUsageInfoIsReturned(): void
     {
         $transactions = [];
@@ -44,16 +46,6 @@ final class UsageTest extends TestCase
         $this->assertSame('http://gateway/admin/usage', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\Usage::trim
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testUsageIsTrimmed(): void
     {
         $transactions = [];

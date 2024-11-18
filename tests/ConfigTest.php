@@ -3,16 +3,15 @@
 namespace Tests;
 
 use LBausch\CephRadosgwAdmin\Config;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
+#[CoversMethod(Config::class, '__construct')]
+#[CoversMethod(Config::class, 'defaults')]
+#[CoversMethod(Config::class, 'get')]
+#[CoversMethod(Config::class, 'make')]
+#[CoversMethod(Config::class, 'set')]
 final class ConfigTest extends TestCase
 {
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\Config::__construct
-     * @covers \LBausch\CephRadosgwAdmin\Config::defaults
-     * @covers \LBausch\CephRadosgwAdmin\Config::get
-     * @covers \LBausch\CephRadosgwAdmin\Config::make
-     * @covers \LBausch\CephRadosgwAdmin\Config::set
-     */
     public function testFactoryCreatesConfig(): void
     {
         $config = Config::make([

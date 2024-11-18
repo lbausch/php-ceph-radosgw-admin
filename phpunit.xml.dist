@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         cacheResultFile=".phpunit.cache/test-results"
-         executionOrder="depends,defects"
-         forceCoversAnnotation="true"
-         beStrictAboutCoversAnnotation="true"
-         beStrictAboutOutputDuringTests="true"
-         beStrictAboutTodoAnnotatedTests="true"
-         failOnRisky="true"
-         failOnWarning="true"
-         colors="true"
-         verbose="true">
-    <testsuites>
-        <testsuite name="default">
-            <directory suffix="Test.php">tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <coverage cacheDirectory=".phpunit.cache/code-coverage"
-              processUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
-        <report>
-            <clover outputFile="coverage.xml" />
-            <html outputDirectory=".phpunit.coverage" />
-        </report>
-    </coverage>
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.4/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
+    executionOrder="depends,defects"
+    beStrictAboutOutputDuringTests="true"
+    failOnRisky="true"
+    failOnWarning="true"
+    colors="true"
+    cacheDirectory=".phpunit.cache"
+    requireCoverageMetadata="true"
+    beStrictAboutCoverageMetadata="true"
+    displayDetailsOnPhpunitDeprecations="true"
+>
+  <testsuites>
+    <testsuite name="default">
+      <directory suffix="Test.php">tests</directory>
+    </testsuite>
+  </testsuites>
+  <coverage>
+    <report>
+      <clover outputFile="coverage.xml"/>
+      <html outputDirectory=".phpunit.coverage"/>
+    </report>
+  </coverage>
+  <source>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+  </source>
 </phpunit>
