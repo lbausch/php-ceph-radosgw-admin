@@ -20,7 +20,7 @@ A PHP REST client for the [Ceph](https://ceph.io/) [Object Gateway](https://docs
 + Extensible and customizable
 
 ## Requirements
-+ PHP ^7.4 or PHP ^8.0
++ PHP PHP ^8.2
 + Ceph Nautilus (14) or newer
 
 ## Installation

@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ['7.4', '8.0', '8.1', '8.2', '8.3']
+        php: ['8.2', '8.3']
         stability: [prefer-lowest, prefer-stable]
 
     name: 'PHPUnit: PHP ${{ matrix.php }} - ${{ matrix.stability }}'
@@ -41,7 +41,7 @@ jobs:
         run: ./vendor/bin/phpunit --testdox --coverage-text
 
       - name: Upload coverage to Codecov
-        if: ${{ github.ref == 'refs/heads/master' && matrix.php == '8.0' && matrix.stability == 'prefer-stable' }}
+        if: ${{ github.ref == 'refs/heads/master' && matrix.php == '8.2' && matrix.stability == 'prefer-stable' }}
         uses: codecov/codecov-action@v1
         with:
           file: ./coverage.xml

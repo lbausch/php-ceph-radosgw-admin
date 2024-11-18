@@ -44,6 +44,11 @@ jobs:
     name: Rector
     runs-on: ubuntu-latest
     steps:
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
       - name: Checkout code
         uses: actions/checkout@v4
 
