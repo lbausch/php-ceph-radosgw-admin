@@ -11,9 +11,16 @@ class Config
 {
     /**
      * Configuration.
+     *
+     * @var array<mixed, mixed>
      */
     protected array $config = [];
 
+    /**
+     * Constructor.
+     *
+     * @param array<mixed, mixed> $config
+     */
     protected function __construct(array $config = [])
     {
         $defaults = $this->defaults();
@@ -25,6 +32,8 @@ class Config
 
     /**
      * Factory method.
+     *
+     * @param array<mixed, mixed> $config
      */
     public static function make(array $config = []): self
     {
@@ -55,6 +64,8 @@ class Config
 
     /**
      * Get default configuration.
+     *
+     * @return array<string, mixed>
      */
     protected function defaults(): array
     {

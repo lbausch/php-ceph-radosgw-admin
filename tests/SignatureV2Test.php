@@ -7,19 +7,19 @@ use DateTime;
 use GuzzleHttp\Psr7\Request;
 use LBausch\CephRadosgwAdmin\Config;
 use LBausch\CephRadosgwAdmin\Signature\SignatureV2;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use Psr\Http\Message\RequestInterface;
 
+#[CoversClass(Config::class)]
+#[CoversMethod(SignatureV2::class, 'canonicalizedAmzHeaders')]
+#[CoversMethod(SignatureV2::class, 'canonicalizedResource')]
+#[CoversMethod(SignatureV2::class, 'contentMd5')]
+#[CoversMethod(SignatureV2::class, 'expires')]
+#[CoversMethod(SignatureV2::class, 'signRequest')]
+#[CoversMethod(SignatureV2::class, 'stringToSign')]
 final class SignatureV2Test extends TestCase
 {
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::canonicalizedAmzHeaders
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::canonicalizedResource
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::contentMd5
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::expires
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::signRequest
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::stringToSign
-     */
     public function testRequestIsSigned(): void
     {
         $config = Config::make([
@@ -38,18 +38,14 @@ final class SignatureV2Test extends TestCase
         $headers = $signedRequest->getHeaders();
 
         $this->assertArrayHasKey('Date', $headers);
-        $this->assertSame(1, count($headers['Date']));
+        $this->assertCount(1, $headers['Date']);
 
         $this->assertArrayHasKey('Authorization', $headers);
-        $this->assertSame(1, count($headers['Authorization']));
+        $this->assertCount(1, $headers['Authorization']);
 
         $this->assertMatchesRegularExpression('/^AWS access key:([a-zA-Z0-9+\/]){27}=$/', $headers['Authorization'][0]);
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::contentMd5
-     */
     public function testChecksumForRequestBodyIsCalculatedCorrectly(): void
     {
         $requestWithoutBody = new Request('POST', 'http://gateway/foo', [
@@ -83,7 +79,7 @@ final class SignatureV2Test extends TestCase
             'Content-Type' => 'application/json',
         ], '{"foo":"bar"}');
 
-        $signature = new class() extends SignatureV2 {
+        $signature = new class extends SignatureV2 {
             public function contentMd5(RequestInterface $request): string
             {
                 return parent::contentMd5($request);
@@ -98,10 +94,6 @@ final class SignatureV2Test extends TestCase
         $this->assertSame('', $signature->contentMd5($requestPUT));
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::expires
-     */
     public function testRequestHasExpireDate(): void
     {
         $request = new Request('GET', 'http://gateway/foo', [
@@ -115,7 +107,7 @@ final class SignatureV2Test extends TestCase
             'Date' => 'foo',
         ]);
 
-        $signature = new class() extends SignatureV2 {
+        $signature = new class extends SignatureV2 {
             public function expires(RequestInterface $request): string
             {
                 return parent::expires($request);
@@ -126,7 +118,7 @@ final class SignatureV2Test extends TestCase
         $date = DateTime::createFromFormat(DateTime::RFC2822, $expires);
 
         $this->assertNotFalse($date);
-        $this->assertSame($date->format(DateTime::RFC2822), $expires); // @phpstan-ignore-line
+        $this->assertSame($date->format(DateTime::RFC2822), $expires);
         $this->assertSame('foo', $signature->expires($requestWithExistingHeader));
     }
 }

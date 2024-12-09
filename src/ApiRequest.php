@@ -27,6 +27,8 @@ class ApiRequest
 
     /**
      * Perform request, wrapper around Guzzle.
+     *
+     * @param array<mixed, mixed> $options
      */
     public function request(string $method, string $uri, array $options = []): ResponseInterface
     {
@@ -35,6 +37,8 @@ class ApiRequest
 
     /**
      * Perform GET request.
+     *
+     * @param array<mixed, mixed> $options
      */
     public function get(string $uri, array $options = []): ApiResponse
     {
@@ -45,6 +49,8 @@ class ApiRequest
 
     /**
      * Perform PUT request.
+     *
+     * @param array<mixed, mixed> $options
      */
     public function put(string $uri, array $options = []): ApiResponse
     {
@@ -55,6 +61,8 @@ class ApiRequest
 
     /**
      * Perform POST request.
+     *
+     * @param array<mixed, mixed> $options
      */
     public function post(string $uri, array $options = []): ApiResponse
     {
@@ -65,6 +73,8 @@ class ApiRequest
 
     /**
      * Perform DELETE request.
+     *
+     * @param array<mixed, mixed> $options
      */
     public function delete(string $uri, array $options = []): ApiResponse
     {

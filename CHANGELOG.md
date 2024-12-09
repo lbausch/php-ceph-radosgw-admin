@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 
+## [0.3.0] - 2024-12-09
+### Changed
+Breaking: Remove support for PHP 8.2
+
+
 ## [0.2.0] - 2021-09-09
 ### Added
 - Allow to pass arbitrary options when creating S3 client
@@ -36,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release
 
 
-[Unreleased]: https://github.com/lbausch/php-ceph-radosgw-admin/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/lbausch/php-ceph-radosgw-admin/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/lbausch/php-ceph-radosgw-admin/releases/tag/v0.3.0
 [0.2.0]: https://github.com/lbausch/php-ceph-radosgw-admin/releases/tag/v0.2.0
 [0.1.0]: https://github.com/lbausch/php-ceph-radosgw-admin/releases/tag/v0.1.0

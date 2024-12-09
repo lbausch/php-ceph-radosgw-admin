@@ -13,6 +13,8 @@ class ApiResponse
 
     /**
      * Decoded response.
+     *
+     * @var array<mixed, mixed>
      */
     protected ?array $decoded = null;
 
@@ -23,6 +25,7 @@ class ApiResponse
         $body = $this->getResponse()->getBody();
 
         $body->rewind();
+
         $content = $body->getContents();
         $body->rewind();
 
@@ -83,7 +86,7 @@ class ApiResponse
      *
      * @return mixed
      */
-    public function get(string $name = null, $default = null)
+    public function get(?string $name = null, $default = null)
     {
         if (null === $name && null === $default) {
             return $this->decoded;

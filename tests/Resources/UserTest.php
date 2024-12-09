@@ -5,20 +5,35 @@ namespace Tests\Resources;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use LBausch\CephRadosgwAdmin\Client;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use Tests\TestCase;
 
+#[CoversClass(\LBausch\CephRadosgwAdmin\ApiRequest::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\ApiResponse::class)]
+#[CoversClass(Client::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Config::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Signature\SignatureV2::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Signature\SignatureV4::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Resources\AbstractResource::class)]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'addCapability')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'create')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'createKey')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'createSubuser')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'getBucketQuota')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'getQuota')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'info')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'list')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'modify')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'modifySubuser')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'removeCapability')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'removeKey')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'removeSubuser')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'setBucketQuota')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\User::class, 'setQuota')]
 final class UserTest extends TestCase
 {
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::list
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testUsersAreListed(): void
     {
         $transactions = [];
@@ -42,16 +57,6 @@ final class UserTest extends TestCase
         $this->assertSame('http://gateway/admin/metadata/user', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::info
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testUserInfoIsReturned(): void
     {
         $transactions = [];
@@ -85,21 +90,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?uid=foo%24bar', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::create
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::canonicalizedAmzHeaders
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::canonicalizedResource
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::contentMd5
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::expires
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::signRequest
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2::stringToSign
-     */
     public function testUserIsCreated(): void
     {
         $transactions = [];
@@ -127,16 +117,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?uid=foo&display-name=foo%20bar', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::modify
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testUserIsModified(): void
     {
         $transactions = [];
@@ -164,16 +144,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?uid=foo&display-name=baz', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::createKey
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testKeyIsCreated(): void
     {
         $transactions = [];
@@ -197,16 +167,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?key=&uid=foo', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::removeKey
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testKeyIsRemoved(): void
     {
         $transactions = [];
@@ -230,16 +190,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?key=&access-key=access%20key', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::createSubuser
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testSubuserIsCreated(): void
     {
         $transactions = [];
@@ -268,16 +218,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?uid=foo&subuser=bar', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::modifySubuser
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testSubuserIsModified(): void
     {
         $transactions = [];
@@ -306,16 +246,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?uid=foo&subuser=bar&access=read', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::removeSubuser
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testSubuserIsRemoved(): void
     {
         $transactions = [];
@@ -339,16 +269,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?uid=foo&subuser=bar', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::addCapability
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testCapabilityIsAdded(): void
     {
         $transactions = [];
@@ -377,16 +297,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?caps=&uid=foo&user-caps=usage%3Dread', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::removeCapability
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testCapabilityIsRemoved(): void
     {
         $transactions = [];
@@ -410,16 +320,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?caps=&uid=foo&user-caps=usage%3Dread', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::getQuota
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testUserQuotaIsReturned(): void
     {
         $transactions = [];
@@ -449,16 +349,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=user', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::setQuota
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2
-     */
     public function testUserQuotaIsSet(): void
     {
         $transactions = [];
@@ -482,16 +372,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=user', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::getBucketQuota
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testBucketQuotaIsReturned(): void
     {
         $transactions = [];
@@ -521,16 +401,6 @@ EOT),
         $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=bucket', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\User::setBucketQuota
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2
-     */
     public function testBucketQuotaIsSet(): void
     {
         $transactions = [];

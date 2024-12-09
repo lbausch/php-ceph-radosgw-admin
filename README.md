@@ -1,5 +1,3 @@
-![PHP Ceph Radosgw Admin](.github/logo.png)
-
 # PHP Ceph Radosgw Admin <!-- omit in toc -->
 
 ![sca](https://github.com/lbausch/php-ceph-radosgw-admin/actions/workflows/sca.yml/badge.svg) ![tests](https://github.com/lbausch/php-ceph-radosgw-admin/actions/workflows/tests.yml/badge.svg) ![codecov](https://codecov.io/gh/lbausch/php-ceph-radosgw-admin/branch/master/graph/badge.svg)
@@ -18,12 +16,11 @@ A PHP REST client for the [Ceph](https://ceph.io/) [Object Gateway](https://docs
 ## Features
 + Supports all endpoints of the [Admin Ops API](https://docs.ceph.com/en/latest/radosgw/adminops/), including currently undocumented `metadata/` endpoints
 + Requests are signed using AWS Signature V2 and V4
-+ Provides S3 client with no extra configuration by utilizing the [AWS SDK for PHP
-](https://aws.amazon.com/sdk-for-php/)
++ Provides S3 client with no extra configuration by utilizing the [AWS SDK for PHP](https://aws.amazon.com/sdk-for-php/)
 + Extensible and customizable
 
 ## Requirements
-+ PHP ^7.4 or PHP ^8.0
++ PHP PHP ^8.2
 + Ceph Nautilus (14) or newer
 
 ## Installation

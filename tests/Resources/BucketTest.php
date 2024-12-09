@@ -5,20 +5,29 @@ namespace Tests\Resources;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use LBausch\CephRadosgwAdmin\Client;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use Tests\TestCase;
 
+#[CoversClass(\LBausch\CephRadosgwAdmin\ApiRequest::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\ApiResponse::class)]
+#[CoversClass(Client::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Config::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Signature\SignatureV2::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Signature\SignatureV4::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::class)]
+#[CoversClass(\LBausch\CephRadosgwAdmin\Resources\AbstractResource::class)]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\Bucket::class, 'check')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\Bucket::class, 'info')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\Bucket::class, 'link')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\Bucket::class, 'list')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\Bucket::class, 'policy')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\Bucket::class, 'remove')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\Bucket::class, 'removeObject')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\Bucket::class, 'setQuota')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Resources\Bucket::class, 'unlink')]
 final class BucketTest extends TestCase
 {
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::list
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testBucketsAreListed(): void
     {
         $transactions = [];
@@ -42,16 +51,6 @@ final class BucketTest extends TestCase
         $this->assertSame('http://gateway/admin/metadata/bucket', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::remove
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testBucketIsRemoved(): void
     {
         $transactions = [];
@@ -75,16 +74,6 @@ final class BucketTest extends TestCase
         $this->assertSame('http://gateway/admin/bucket?bucket=mybucket', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::info
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testBucketInfoIsRetrieved(): void
     {
         $transactions = [];
@@ -134,16 +123,6 @@ EOT),
         ], $response->get());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::check
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testBucketIndexIsChecked(): void
     {
         $transactions = [];
@@ -167,16 +146,6 @@ EOT),
         $this->assertSame('http://gateway/admin/bucket?index=&bucket=mybucket', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::link
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testBucketIsLinked(): void
     {
         $transactions = [];
@@ -200,16 +169,6 @@ EOT),
         $this->assertSame('http://gateway/admin/bucket?bucket=mybucket&uid=foobar', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::unlink
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testBucketIsUnlinked(): void
     {
         $transactions = [];
@@ -233,16 +192,6 @@ EOT),
         $this->assertSame('http://gateway/admin/bucket?bucket=mybucket&uid=foobar', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::policy
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testBucketPolicyIsRetrieved(): void
     {
         $transactions = [];
@@ -280,16 +229,6 @@ EOT),
         ], $response->get());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::removeObject
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV4::signRequest
-     */
     public function testBucketObjectIsRemoved(): void
     {
         $transactions = [];
@@ -313,16 +252,6 @@ EOT),
         $this->assertSame('http://gateway/admin/bucket?bucket=mybucket&object=foo', (string) $request->getUri());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\ApiRequest
-     * @covers \LBausch\CephRadosgwAdmin\ApiResponse
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware
-     * @covers \LBausch\CephRadosgwAdmin\Resources\AbstractResource
-     * @covers \LBausch\CephRadosgwAdmin\Resources\Bucket::setQuota
-     * @covers \LBausch\CephRadosgwAdmin\Signature\SignatureV2
-     */
     public function testBucketQuotaIsSet(): void
     {
         $transactions = [];

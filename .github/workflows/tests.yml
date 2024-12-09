@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ['7.4', '8.0', '8.1']
+        php: ['8.2', '8.3', '8.4']
         stability: [prefer-lowest, prefer-stable]
 
     name: 'PHPUnit: PHP ${{ matrix.php }} - ${{ matrix.stability }}'
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
@@ -31,7 +31,7 @@ jobs:
           coverage: xdebug
 
       - name: Install dependencies
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 5
           max_attempts: 5
@@ -41,7 +41,7 @@ jobs:
         run: ./vendor/bin/phpunit --testdox --coverage-text
 
       - name: Upload coverage to Codecov
-        if: ${{ github.ref == 'refs/heads/master' && matrix.php == '8.0' && matrix.stability == 'prefer-stable' }}
+        if: ${{ github.ref == 'refs/heads/master' && matrix.php == '8.2' && matrix.stability == 'prefer-stable' }}
         uses: codecov/codecov-action@v1
         with:
           file: ./coverage.xml

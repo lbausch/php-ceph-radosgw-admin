@@ -1,0 +1,9 @@
+* text=auto eol=lf
+
+.php-cs-fixer.dist.php export-ignore
+.github export-ignore
+CHANGELOG.md export-ignore
+phpstan.neon.dist export-ignore
+psalm-baseline.xml export-ignore
+psalm.xml export-ignore
+rector.php export-ignore

@@ -6,22 +6,22 @@ use Aws\S3\S3Client;
 use GuzzleHttp\ClientInterface;
 use InvalidArgumentException;
 use LBausch\CephRadosgwAdmin\Client;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use ReflectionObject;
 
+#[CoversMethod(Client::class, 'make')]
+#[CoversMethod(Client::class, '__call')]
+#[CoversMethod(Client::class, '__construct')]
+#[CoversMethod(Client::class, 'getHttpClient')]
+#[CoversMethod(Client::class, 'getS3Client')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::class, 'handle')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Config::class, '__construct')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Config::class, 'defaults')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Config::class, 'get')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Config::class, 'make')]
+#[CoversMethod(\LBausch\CephRadosgwAdmin\Config::class, 'set')]
 final class ClientTest extends TestCase
 {
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\Client::make
-     * @covers \LBausch\CephRadosgwAdmin\Client::__construct
-     * @covers \LBausch\CephRadosgwAdmin\Client::getHttpClient
-     * @covers \LBausch\CephRadosgwAdmin\Client::getS3Client
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::handle
-     * @covers \LBausch\CephRadosgwAdmin\Config::__construct
-     * @covers \LBausch\CephRadosgwAdmin\Config::defaults
-     * @covers \LBausch\CephRadosgwAdmin\Config::get
-     * @covers \LBausch\CephRadosgwAdmin\Config::make
-     * @covers \LBausch\CephRadosgwAdmin\Config::set
-     */
     public function testFactoryCreatesClients(): void
     {
         $client = Client::make('http://gateway:8080', 'key', 'secret');
@@ -31,13 +31,6 @@ final class ClientTest extends TestCase
         $this->assertInstanceOf(S3Client::class, $client->getS3Client());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::handle
-     * @covers \LBausch\CephRadosgwAdmin\Client::make
-     * @covers \LBausch\CephRadosgwAdmin\Client::__construct
-     * @covers \LBausch\CephRadosgwAdmin\Client::getS3Client
-     */
     public function testS3ClientUsesProvidedCredentials(): void
     {
         $client = Client::make('http://gateway:8080', 'key', 'secret');
@@ -55,13 +48,6 @@ final class ClientTest extends TestCase
         $this->assertSame('bar', $value->getValue($credentials)->getSecretKey());
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::handle
-     * @covers \LBausch\CephRadosgwAdmin\Client::make
-     * @covers \LBausch\CephRadosgwAdmin\Client::__construct
-     * @covers \LBausch\CephRadosgwAdmin\Client::getS3Client
-     */
     public function testS3ClientUsesProvidedOptions(): void
     {
         $client = Client::make('http://gateway:8080', 'key', 'secret');
@@ -81,11 +67,6 @@ final class ClientTest extends TestCase
         $this->assertFalse($data['@http']['verify']);
     }
 
-    /**
-     * @covers \LBausch\CephRadosgwAdmin\Client
-     * @covers \LBausch\CephRadosgwAdmin\Middlewares\SignatureMiddleware::handle
-     * @covers \LBausch\CephRadosgwAdmin\Config
-     */
     public function testInvalidResourceThrowsException(): void
     {
         $client = Client::make('http://gateway:8080', 'key', 'secret');

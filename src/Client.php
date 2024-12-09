@@ -26,7 +26,7 @@ class Client
      *
      * @var string
      */
-    public const VERSION = '0.2.0';
+    public const VERSION = '0.3.0';
 
     /**
      * Configuration.
@@ -38,10 +38,10 @@ class Client
      */
     protected HttpClientInterface $httpClient;
 
-    protected function __construct(string $base_uri, string $key, string $secret, Config $config = null)
+    protected function __construct(string $base_uri, string $key, string $secret, ?Config $config = null)
     {
         // Setup configuration
-        $this->config = (null === $config) ? Config::make() : $config;
+        $this->config = ($config instanceof Config) ? $config : Config::make();
 
         // Set base_uri
         $this->config->set('base_uri', $base_uri);
@@ -77,7 +77,7 @@ class Client
     /**
      * Factory method.
      */
-    public static function make(string $base_uri, string $key, string $secret, Config $config = null): self
+    public static function make(string $base_uri, string $key, string $secret, ?Config $config = null): self
     {
         return new self($base_uri, $key, $secret, $config);
     }
@@ -92,8 +92,10 @@ class Client
 
     /**
      * Get S3 client.
+     *
+     * @param array<mixed, mixed> $options
      */
-    public function getS3Client(string $key = null, string $secret = null, array $options = []): S3Client
+    public function getS3Client(?string $key = null, ?string $secret = null, array $options = []): S3Client
     {
         $credentials = $this->config->get('credentials');
 
@@ -113,6 +115,8 @@ class Client
 
     /**
      * Call resources via magic method.
+     *
+     * @param array<mixed, mixed> $arguments
      *
      * @return mixed
      */
