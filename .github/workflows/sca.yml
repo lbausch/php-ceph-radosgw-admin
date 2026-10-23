@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: PHP Coding Standards Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: PHPStan
         uses: docker://oskarstark/phpstan-ga
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Psalm Security Scan
         uses: docker://ghcr.io/psalm/psalm-security-scan
@@ -50,7 +50,7 @@ jobs:
           php-version: 8.2
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install dependencies
         run: composer update --no-interaction --no-progress
