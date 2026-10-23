@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Integration tests against Ceph Squid, Tentacle and Umbrella, including pre-releases
 ### Changed
+- Breaking: Require `aws/aws-sdk-php` 3.371.4 or newer, since older versions have known security vulnerabilities
 ### Deprecated
 ### Removed
 ### Fixed

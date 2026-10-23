@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "aws/aws-sdk-php": "^3.131",
+        "aws/aws-sdk-php": "^3.371.4",
         "guzzlehttp/guzzle": "^7.0"
     },
     "require-dev": {
