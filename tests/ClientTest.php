@@ -42,7 +42,6 @@ final class ClientTest extends TestCase
         $reflection = new ReflectionObject($credentials);
 
         $value = $reflection->getProperty('value');
-        $value->setAccessible(true);
 
         $this->assertSame('foo', $value->getValue($credentials)->getAccessKeyId());
         $this->assertSame('bar', $value->getValue($credentials)->getSecretKey());
