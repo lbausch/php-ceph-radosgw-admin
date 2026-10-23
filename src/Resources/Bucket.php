@@ -146,7 +146,7 @@ class Bucket extends AbstractResource
                 'uid' => $uid,
                 'bucket' => $bucket,
             ],
-            RequestOptions::BODY => json_encode($quota),
+            RequestOptions::JSON => $quota,
             AbstractSignature::SIGNATURE_OPTION => SignatureV2::class,
         ]);
     }

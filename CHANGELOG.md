@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Integration tests against Ceph Squid, Tentacle and Umbrella, including pre-releases
 ### Changed
+- Breaking: Require `aws/aws-sdk-php` 3.371.4 or newer, since older versions have known security vulnerabilities
 ### Deprecated
 ### Removed
 ### Fixed
+- Only send `Content-Type` header along with a request body, since Ceph 20.2.4 rejects requests otherwise
 ### Security
 
 

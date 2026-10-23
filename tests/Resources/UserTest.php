@@ -55,6 +55,7 @@ final class UserTest extends TestCase
 
         $this->assertSame('GET', $request->getMethod());
         $this->assertSame('http://gateway/admin/metadata/user', (string) $request->getUri());
+        $this->assertFalse($request->hasHeader('Content-Type'));
     }
 
     public function testUserInfoIsReturned(): void
@@ -370,6 +371,8 @@ EOT),
 
         $this->assertSame('PUT', $request->getMethod());
         $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=user', (string) $request->getUri());
+        $this->assertSame('application/json', $request->getHeaderLine('Content-Type'));
+        $this->assertSame('{"enabled":true}', (string) $request->getBody());
     }
 
     public function testBucketQuotaIsReturned(): void
@@ -422,5 +425,7 @@ EOT),
 
         $this->assertSame('PUT', $request->getMethod());
         $this->assertSame('http://gateway/admin/user?quota=&uid=foo&quota-type=bucket', (string) $request->getUri());
+        $this->assertSame('application/json', $request->getHeaderLine('Content-Type'));
+        $this->assertSame('{"enabled":true}', (string) $request->getBody());
     }
 }

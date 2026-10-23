@@ -273,5 +273,7 @@ EOT),
 
         $this->assertSame('PUT', $request->getMethod());
         $this->assertSame('http://gateway/admin/bucket?quota=&uid=foo&bucket=mybucket', (string) $request->getUri());
+        $this->assertSame('application/json', $request->getHeaderLine('Content-Type'));
+        $this->assertSame('{"enabled":true}', (string) $request->getBody());
     }
 }

@@ -144,11 +144,13 @@ class Config
             /*
              * HTTP client default headers
              *
+             * Content-Type is only sent along with a request body, since Ceph 20.2.4 rejects requests carrying a Content-Type header which is not part of the V4 signature.
+             *
              * https://docs.guzzlephp.org/en/stable/request-options.html#headers
+             * https://tracker.ceph.com/issues/79674
              */
             'httpClientHeaders' => [
                 'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
                 'User-Agent' => Client::class.':'.Client::VERSION,
             ],
         ];
