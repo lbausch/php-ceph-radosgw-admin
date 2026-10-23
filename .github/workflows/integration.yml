@@ -1,0 +1,98 @@
+---
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * *'
+
+name: Integration Tests
+
+jobs:
+  rgw:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Stable releases
+          - ceph: squid
+            image: quay.io/ceph/ceph:v19
+            experimental: false
+          - ceph: tentacle
+            image: quay.io/ceph/ceph:v20
+            experimental: false
+          # Release candidates until v21.2.0 is published
+          - ceph: umbrella
+            image: quay.io/ceph/ceph:v21
+            experimental: true
+          # Unreleased builds of the release branches
+          - ceph: pre-squid
+            image: quay.ceph.io/ceph-ci/ceph:squid
+            experimental: true
+          - ceph: pre-tentacle
+            image: quay.ceph.io/ceph-ci/ceph:tentacle
+            experimental: true
+          - ceph: pre-umbrella
+            image: quay.ceph.io/ceph-ci/ceph:umbrella
+            experimental: true
+
+    name: 'RGW: Ceph ${{ matrix.ceph }}'
+
+    runs-on: ubuntu-latest
+
+    # Failures of pre-releases are reported, but do not fail the workflow
+    continue-on-error: ${{ matrix.experimental }}
+
+    env:
+      RGW_ENDPOINT: http://127.0.0.1:8080
+      RGW_ACCESS_KEY: admin-access-key
+      RGW_SECRET_KEY: admin-secret-key
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Pull ${{ matrix.image }}
+        uses: nick-fields/retry@v4
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: docker pull --quiet ${{ matrix.image }}
+
+      - name: Start Ceph RGW
+        run: |
+          docker run --detach --name rgw --publish 8080:8080 \
+            --env ACCESS_KEY="$RGW_ACCESS_KEY" --env SECRET_KEY="$RGW_SECRET_KEY" \
+            --volume "$PWD/.github/ceph:/ci:ro" --entrypoint /ci/start-rgw.sh \
+            ${{ matrix.image }}
+
+      - name: Setup PHP 8.5
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          tools: composer:v2
+          coverage: none
+
+      - name: Install dependencies
+        uses: nick-fields/retry@v4
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer update --prefer-dist --no-interaction --no-progress
+
+      - name: Wait for Ceph RGW
+        run: |
+          timeout 300 bash -c 'until docker logs rgw 2>&1 | grep -q "RGW ready"; do
+            docker inspect --format "{{.State.Running}}" rgw | grep -q true || exit 1
+            sleep 2
+          done'
+          docker logs rgw 2>&1 | grep "RGW ready"
+
+      - name: Execute tests
+        run: ./vendor/bin/phpunit --testsuite integration --testdox --no-coverage
+
+      - name: Show Ceph logs
+        if: failure()
+        run: |
+          docker logs rgw 2>&1 | tail -n 50
+          docker exec rgw sh -c 'tail -n 100 /var/log/ceph/*.log' || true
